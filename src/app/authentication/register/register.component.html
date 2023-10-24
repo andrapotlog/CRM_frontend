@@ -1,0 +1,287 @@
+<p>register works!</p>
+<div class="register">
+  <h2>Register user</h2>
+
+  <div class="register-body">
+    <div class="register-body-client" *ngIf="clientCodePage">
+      <form
+        class="register-body-form"
+        [formGroup]="clientForm"
+        (ngSubmit)="firstSubmit()"
+      >
+        <div class="register-body-field-container">
+          <mat-form-field class="register-body-field" appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName" required type="text" />
+            <mat-error
+              *ngIf="clientForm.controls['firstName'].hasError('pattern')"
+            >
+              Invalid input
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="register-body-field-container">
+          <mat-form-field class="register-body-field" appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName" required type="text" />
+            <mat-error
+              *ngIf="clientForm.controls['lastName'].hasError('pattern')"
+            >
+              Invalid input
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="register-body-field-container">
+          <mat-form-field class="register-body-field" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" required type="email" />
+            <mat-error *ngIf="clientForm.controls['email'].hasError('email')">
+              Invalid email address
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="register-body-field-container">
+          <mat-form-field class="register-body-field" appearance="outline">
+            <mat-label>Client code</mat-label>
+            <input
+              matInput
+              formControlName="clientCode"
+              required
+              type="number"
+            />
+            <mat-error
+              *ngIf="clientForm.controls['clientCode'].hasError('pattern')"
+            >
+              Invalid client code
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <button
+          class="register-body-form-submit"
+          mat-raised-button
+          type="submit"
+          [disabled]="clientForm.invalid"
+        >
+          Continue
+        </button>
+      </form>
+    </div>
+
+    <div class="register-body-password" *ngIf="passwordPage">
+      <h3>Choose a password</h3>
+      <form
+        class="register-body-form"
+        [formGroup]="passwordForm"
+        (ngSubmit)="secondSubmit()"
+      >
+        <div class="register-body-field-container">
+          <mat-form-field class="register-body-field" appearance="outline">
+            <mat-label>Password</mat-label>
+            <input
+              matInput
+              formControlName="password"
+              required
+              type="password"
+            />
+            <mat-error
+              *ngIf="passwordForm.controls['password'].hasError('minlength')"
+            >
+              Password should be at least 8 characters long
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="register-body-field-container">
+          <mat-form-field class="register-body-field" appearance="outline">
+            <mat-label>Repeat Password</mat-label>
+            <input
+              matInput
+              formControlName="repeatPassword"
+              required
+              type="password"
+            />
+            <mat-error
+              *ngIf="
+                passwordForm.controls['repeatPassword'].hasError(
+                  'passwordMismatch'
+                )
+              "
+            >
+              Passwords do not match
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <button
+          class="register-body-form-submit"
+          mat-raised-button
+          type="submit"
+          [disabled]="passwordForm.invalid"
+        >
+          Continue
+        </button>
+      </form>
+    </div>
+
+    <div class="register-body-personalData" *ngIf="personalDataPage">
+      <h3>Please provide your personal information.</h3>
+      <form
+        class="register-body-form"
+        [formGroup]="personalDataForm"
+        (ngSubmit)="finalSubmit()"
+      >
+        <div class="register-body-field-container-birthdate">
+          <mat-form-field class="register-body-field" appearance="outline">
+            <mat-label>Choose your birthdate</mat-label>
+            <input
+              matInput
+              formControlName="birthDate"
+              [min]="minDate"
+              [max]="maxDate"
+              [matDatepicker]="picker"
+            />
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker touchUi #picker></mat-datepicker>
+            <mat-error
+              *ngIf="personalDataForm.controls['birthDate'].hasError('minDate')"
+            >
+              Date should be greater than 01.01.1900.
+            </mat-error>
+            <mat-error
+              *ngIf="personalDataForm.controls['birthDate'].hasError('maxDate')"
+            >
+              You must be at least 18 years old.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="register-body-field-container">
+          <mat-form-field class="register-body-field" appearance="outline">
+            <mat-label>Identity number</mat-label>
+            <input matInput formControlName="cnp" required type="number" />
+            <mat-error
+              *ngIf="
+                personalDataForm.controls['cnp'].hasError('pattern') ||
+                personalDataForm.controls['cnp'].hasError('cnpInvalid')
+              "
+            >
+              Invalid id
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="register-body-field-container">
+          <mat-form-field class="register-body-field" appearance="outline">
+            <mat-label>Postal Code</mat-label>
+            <input
+              matInput
+              formControlName="postalCode"
+              required
+              type="number"
+            />
+            <mat-error
+              *ngIf="
+                personalDataForm.controls['postalCode'].hasError('pattern')
+              "
+            >
+              Invalid pattern
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="register-body-field-container-phone">
+          <mat-form-field class="register-body-field-code" appearance="outline">
+            <mat-label>Code</mat-label>
+            <mat-select formControlName="countryCode">
+              <mat-option
+                class="register-body-field-code-option"
+                *ngFor="let countryCode of countryCodes"
+                [value]="countryCode.code"
+                >+{{ countryCode.code }} ({{ countryCode.region }})</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field
+            class="register-body-field-number"
+            appearance="outline"
+          >
+            <mat-label>Phone Number</mat-label>
+            <input
+              matInput
+              formControlName="phoneNumber"
+              required
+              type="number"
+            />
+            <mat-error
+              *ngIf="
+                personalDataForm.controls['phoneNumber'].hasError(
+                  'phoneNumberInvalid'
+                )
+              "
+            >
+              Invalid input
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="register-body-field-container">
+          <mat-form-field class="register-body-field" appearance="outline">
+            <mat-label>Address</mat-label>
+            <input matInput formControlName="address" required type="text" />
+          </mat-form-field>
+        </div>
+
+        <div class="register-body-field-container">
+          <mat-form-field class="register-body-field" appearance="outline">
+            <mat-label>City</mat-label>
+            <input matInput formControlName="city" required type="text" />
+          </mat-form-field>
+        </div>
+
+        <div class="register-body-field-container">
+          <mat-form-field class="register-body-field" appearance="outline">
+            <mat-label>Country</mat-label>
+            <input matInput formControlName="country" required type="text" />
+          </mat-form-field>
+        </div>
+
+        <div class="register-body-field-container">
+          <mat-form-field class="register-body-field" appearance="outline">
+            <mat-label>Postal Code</mat-label>
+            <input
+              matInput
+              formControlName="postalCode"
+              required
+              type="number"
+            />
+            <mat-error
+              *ngIf="
+                personalDataForm.controls['postalCode'].hasError('pattern')
+              "
+            >
+              Invalid pattern
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <button
+          class="register-body-form-submit"
+          mat-raised-button
+          type="submit"
+          [disabled]="personalDataForm.invalid"
+        >
+          Register
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

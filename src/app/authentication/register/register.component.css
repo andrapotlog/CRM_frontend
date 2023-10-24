@@ -1,0 +1,39 @@
+.register {
+  text-align: center;
+}
+
+.register-body-field {
+  width: 20rem;
+}
+
+.register-body-field-container {
+  margin-bottom: 0.4rem;
+}
+
+.register-body-field-container-birthdate {
+  margin-bottom: 0.8rem;
+}
+
+.register-body-field-container-phone {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center;
+
+  margin-bottom: 0.5rem;
+}
+
+.register-body-field-code {
+  width:9rem;
+  margin-right: 1rem;
+}
+
+.register-body-field-number {
+  width: 10rem;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
