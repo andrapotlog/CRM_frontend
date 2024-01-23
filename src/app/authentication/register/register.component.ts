@@ -8,6 +8,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { PhoneNumberUtil } from 'google-libphonenumber';
+import { UserService } from '../../service/userService/user.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from '../../service/auth/auth.service';
 
 interface CountryCode {
   code: number;
@@ -25,17 +28,22 @@ export class RegisterComponent implements OnInit {
   minDate: Date;
   maxDate: Date;
 
-  clientCodePage = false;
-  passwordPage = false;
-  personalDataPage = true;
+  credentialsPage = true;
+  personalDataPage = false;
+
+  userCredentialsError = false;
+  cnpAlreadyExistsError = false;
 
   countryCodes: CountryCode[] = [];
 
-  clientForm: FormGroup;
-  passwordForm: FormGroup;
+  credentialsForm: FormGroup;
   personalDataForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private authService: AuthService,
+  ) {
     const currentDate = new Date();
     this.maxDate = new Date(
       currentDate.getFullYear() - 18,
@@ -45,7 +53,7 @@ export class RegisterComponent implements OnInit {
 
     this.minDate = new Date(1900, 0, 1);
 
-    this.clientForm = this.formBuilder.group({
+    this.credentialsForm = this.formBuilder.group({
       firstName: new FormControl('', [
         Validators.required,
         Validators.pattern('^[A-Za-z- ]+$'),
@@ -62,9 +70,6 @@ export class RegisterComponent implements OnInit {
         Validators.required,
         Validators.pattern(/^\d{8}$/),
       ]),
-    });
-
-    this.passwordForm = this.formBuilder.group({
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(this.minPassword),
@@ -104,36 +109,60 @@ export class RegisterComponent implements OnInit {
         Validators.pattern(/^\d{6}$/),
       ]),
     });
-
-    //console.log(currentDate.toLocaleDateString('en-GB'));
   }
 
   ngOnInit(): void {
     this.countryCodes = this.getCountryCodes();
 
-    //console.log(this.countryCodes);
+    this.userService.getUsers().subscribe((users) => console.log(users));
   }
 
   firstSubmit() {
-    console.log(this.clientForm.controls);
-    this.clientCodePage = false;
-    this.passwordPage = true;
-  }
+    console.log(
+      this.credentialsForm.controls['email'].value +
+        ' ' +
+        this.credentialsForm.controls['password'].value,
+    );
 
-  secondSubmit() {
-    console.log(this.passwordForm.controls);
-    this.clientCodePage = false;
-    this.passwordPage = false;
-    this.personalDataPage = true;
+    this.authService
+      .registerUserCredentials({
+        email: this.credentialsForm.controls['email'].value,
+        password: this.credentialsForm.controls['password'].value,
+      })
+      .subscribe(
+        (res) => {
+          this.credentialsPage = false;
+          this.personalDataPage = true;
+        },
+        (error) => {
+          // if (error instanceof HttpErrorResponse) console.log(error.status);
+          this.userCredentialsError = true;
+        },
+      );
   }
 
   finalSubmit() {
-    /*console.log(
-      this.personalDataForm.controls['birthDate'].value.toLocaleDateString(
-        'en-GB',
-      ),
-    );*/
-    console.log(this.personalDataForm.controls);
+    this.userService
+      .registerUserData({
+        firstName: this.credentialsForm.controls['firstName'].value,
+        lastName: this.credentialsForm.controls['lastName'].value,
+        email: this.credentialsForm.controls['email'].value,
+        clientCode: this.credentialsForm.controls['clientCode'].value,
+        cnp: this.personalDataForm.controls['cnp'].value,
+        phoneNumber:
+          this.personalDataForm.controls['countryCode'].value +
+          this.personalDataForm.controls['phoneNumber'].value,
+        address: this.personalDataForm.controls['address'].value,
+        city: this.personalDataForm.controls['city'].value,
+        country: this.personalDataForm.controls['country'].value,
+        postalCode: this.personalDataForm.controls['postalCode'].value,
+      })
+      .subscribe(
+        (res) => console.log(res),
+        (error) => {
+          this.cnpAlreadyExistsError = true;
+        },
+      );
   }
 
   passwordsMatch(control: AbstractControl): ValidationErrors | null {
@@ -166,18 +195,16 @@ export class RegisterComponent implements OnInit {
   }
 
   cnpValidator(control: AbstractControl) {
-    const cnpControlNumber = '279146358279';
+    const cnpControlNumber: string = '279146358279';
     const cnp = control?.value;
     const birthdate = control.parent?.get('birthDate')?.value;
 
-    if (birthdate && cnp && cnp.toString().length === 13) {
-      const cnpString = cnp.toString();
-
-      const cnpControlDigit = parseInt(cnpString.substring(12, 13));
-      const cnpGenderDigit = parseInt(cnpString.substring(0, 1));
-      const cnpYearDigits = parseInt(cnpString.substring(1, 3));
-      const cnpMonthDigits = parseInt(cnpString.substring(3, 5));
-      const cnpDayDigits = parseInt(cnpString.substring(5, 7));
+    if (birthdate && cnp && cnp.length === 13) {
+      const cnpControlDigit = parseInt(cnp.substring(12, 13));
+      const cnpGenderDigit = parseInt(cnp.substring(0, 1));
+      const cnpYearDigits = parseInt(cnp.substring(1, 3));
+      const cnpMonthDigits = parseInt(cnp.substring(3, 5));
+      const cnpDayDigits = parseInt(cnp.substring(5, 7));
 
       const birthdateYear = birthdate.getFullYear();
       const birthdateMonth = birthdate.getMonth();
@@ -187,7 +214,7 @@ export class RegisterComponent implements OnInit {
       let sum = 0;
       for (let i = 0; i < 12; i++) {
         sum +=
-          parseInt(cnpString.substring(i, i + 1)) *
+          parseInt(cnp.substring(i, i + 1)) *
           parseInt(cnpControlNumber.substring(i, i + 1));
       }
 

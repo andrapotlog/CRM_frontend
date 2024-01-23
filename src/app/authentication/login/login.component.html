@@ -1,1 +1,45 @@
 <p>login works!</p>
+<div class="login">
+  <h2>Login</h2>
+
+  <div class="login-body">
+    <form
+      class="login-body-form"
+      [formGroup]="loginForm"
+      (ngSubmit)="login()"
+    >
+      <div class="login-body-field-container">
+        <mat-form-field class="login-body-field" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" required type="email" />
+          <mat-error *ngIf="loginForm.controls['email'].hasError('email')">
+            Invalid email address
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="login-body-field-container">
+        <mat-form-field class="login-body-field" appearance="outline">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            formControlName="password"
+            required
+            type="password"
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="login-body-error" *ngIf="authFailed">Authentication failed</div>
+
+      <button
+        class="register-body-form-submit"
+        mat-raised-button
+        type="submit"
+        color="primary"
+        [disabled]="loginForm.invalid"
+      >
+        Login
+      </button>
+    </form>
+  </div>
+</div>

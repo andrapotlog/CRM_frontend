@@ -1,0 +1,16 @@
+.login {
+  text-align: center;
+}
+
+.login-body-field {
+  width: 20rem;
+}
+
+.login-body-field-container {
+  margin-bottom: 0.4rem;
+}
+
+.login-body-error {
+  color: #f44336;
+  margin-bottom: 0.5rem;
+}

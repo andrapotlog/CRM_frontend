@@ -32,8 +32,7 @@
   width: 10rem;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+.register-body-form-error {
+  color: #f44336;
+  margin-bottom: 0.5rem;
 }

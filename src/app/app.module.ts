@@ -6,19 +6,34 @@ import { AppComponent } from './app.component';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthModule } from './authentication/auth.module';
+import { AuthModule } from './service/auth/auth.module';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { HttpClientModule } from '@angular/common/http';
+import { NavbarComponent } from './navigation/navbar/navbar.component';
+import { FlexModule } from '@angular/flex-layout';
+import { StoreModule } from '@ngrx/store';
+
+import { reducers } from './app.reducer';
+import { AuthService } from './service/auth/auth.service';
+import { UserService } from './service/userService/user.service';
 
 @NgModule({
-  declarations: [AppComponent, WelcomePageComponent],
+  declarations: [AppComponent, WelcomePageComponent, NavbarComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
     AuthModule,
+    HttpClientModule,
+    FlexModule,
+    StoreModule.forRoot(reducers),
   ],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+    AuthService,
+    UserService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
