@@ -3,10 +3,9 @@ import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
 
-import * as fromReducer from './auth.reducer';
+import * as fromReducer from '../auth.reducer';
 
 export const authGuard: CanActivateFn = (route, state): any => {
-  const token = JSON.parse(localStorage.getItem('isAuth')!);
   const router = inject(Router);
   const store = inject(Store<fromReducer.State>);
 

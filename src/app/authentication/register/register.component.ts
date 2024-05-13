@@ -9,8 +9,16 @@ import {
 } from '@angular/forms';
 import { PhoneNumberUtil } from 'google-libphonenumber';
 import { UserService } from '../../service/userService/user.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../service/auth/auth.service';
+import { Store } from '@ngrx/store';
+
+import * as UserModel from '../../service/userService/user.model';
+
+import { createUser, loadUsers } from '../../service/userService/user.action';
+import {
+  selectError,
+  selectUsers,
+} from '../../service/userService/user.reducer';
 
 interface CountryCode {
   code: number;
@@ -39,10 +47,14 @@ export class RegisterComponent implements OnInit {
   credentialsForm: FormGroup;
   personalDataForm: FormGroup;
 
+  users$ = this.store.select(selectUsers);
+  error$ = this.store.select(selectError);
+
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
     private authService: AuthService,
+    private store: Store,
   ) {
     const currentDate = new Date();
     this.maxDate = new Date(
@@ -114,7 +126,14 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.countryCodes = this.getCountryCodes();
 
-    this.userService.getUsers().subscribe((users) => console.log(users));
+    /*this.userService.getUsers().subscribe((users) => console.log(users));
+     */
+    this.store.dispatch(loadUsers());
+
+    this.users$.subscribe((users) => console.log(users));
+    this.error$.subscribe((error) => {
+      this.cnpAlreadyExistsError = !!(error && error.statusCode === 400);
+    });
   }
 
   firstSubmit() {
@@ -136,13 +155,14 @@ export class RegisterComponent implements OnInit {
         },
         (error) => {
           // if (error instanceof HttpErrorResponse) console.log(error.status);
+          console.log(error);
           this.userCredentialsError = true;
         },
       );
   }
 
   finalSubmit() {
-    this.userService
+    /*this.userService
       .registerUserData({
         firstName: this.credentialsForm.controls['firstName'].value,
         lastName: this.credentialsForm.controls['lastName'].value,
@@ -162,7 +182,23 @@ export class RegisterComponent implements OnInit {
         (error) => {
           this.cnpAlreadyExistsError = true;
         },
-      );
+      );*/
+
+    const payload: UserModel.UserModel = {
+      firstName: this.credentialsForm.controls['firstName'].value,
+      lastName: this.credentialsForm.controls['lastName'].value,
+      email: this.credentialsForm.controls['email'].value,
+      clientCode: this.credentialsForm.controls['clientCode'].value,
+      cnp: this.personalDataForm.controls['cnp'].value,
+      phoneNumber:
+        this.personalDataForm.controls['countryCode'].value +
+        this.personalDataForm.controls['phoneNumber'].value,
+      address: this.personalDataForm.controls['address'].value,
+      city: this.personalDataForm.controls['city'].value,
+      country: this.personalDataForm.controls['country'].value,
+      postalCode: this.personalDataForm.controls['postalCode'].value,
+    };
+    this.store.dispatch(createUser({ payload }));
   }
 
   passwordsMatch(control: AbstractControl): ValidationErrors | null {

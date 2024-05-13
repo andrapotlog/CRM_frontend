@@ -16,18 +16,27 @@ import { StoreModule } from '@ngrx/store';
 import { reducers } from './app.reducer';
 import { AuthService } from './service/auth/auth.service';
 import { UserService } from './service/userService/user.service';
+import { EffectsModule } from '@ngrx/effects';
+import { CrmStoreModule } from './service/crm-store.module';
+import { PersonalProfileComponent } from './profile/personal-profile/personal-profile.component';
 
 @NgModule({
-  declarations: [AppComponent, WelcomePageComponent, NavbarComponent],
+  declarations: [
+    AppComponent,
+    WelcomePageComponent,
+    NavbarComponent,
+    PersonalProfileComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
     AuthModule,
-    HttpClientModule,
     FlexModule,
+    CrmStoreModule,
     StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([]),
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },

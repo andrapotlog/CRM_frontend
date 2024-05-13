@@ -9,6 +9,8 @@ import { UserService } from '../../service/userService/user.service';
 import { AuthService } from '../../service/auth/auth.service';
 import { Router } from '@angular/router';
 
+import * as UserModel from '../../service/userService/user.model';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -31,16 +33,16 @@ export class LoginComponent {
   }
 
   login() {
-    this.authService
-      .authenticateUser({
-        email: this.loginForm.controls['email'].value,
-        password: this.loginForm.controls['password'].value,
-      })
-      .subscribe(
-        (res) => {},
-        (error) => {
-          this.authFailed = true;
-        },
-      );
+    const payload: UserModel.UserCredentials = {
+      email: this.loginForm.controls['email'].value,
+      password: this.loginForm.controls['password'].value,
+    };
+
+    this.authService.authenticateUser(payload).subscribe(
+      (res) => {},
+      (error) => {
+        this.authFailed = true;
+      },
+    );
   }
 }

@@ -1,10 +1,8 @@
 export interface UserModel {
-  //id_user: bigint;
   firstName: string;
   lastName: string;
   email: string;
   clientCode: string;
-  //password: string;
   //birthDate: Date;
   cnp: string;
   phoneNumber: string;

@@ -1,0 +1,10 @@
+.navButton{
+  text-decoration: none;
+  display: inline-block;
+  padding-left: 1rem;
+}
+
+.navButton:hover, .navButton:active {
+  color: lightgrey;
+  cursor: pointer;
+}

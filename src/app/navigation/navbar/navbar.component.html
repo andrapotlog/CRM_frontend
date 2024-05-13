@@ -1,0 +1,8 @@
+<mat-toolbar color="primary">
+  <div class="navButton" *ngIf="!(isAuth$ | async)" (click)="navigateToHome()">CRM</div>
+  <div class="navButton" *ngIf="(isAuth$ | async)">CRM</div>
+  <div fxFlex fxLayoutAlign="flex-end">
+   <div class="navButton" *ngIf="(isAuth$ | async)" (click)="goToProfile()">Profile</div>
+    <div class="navButton" *ngIf="(isAuth$ | async)" (click)="logOut()">Log out</div>
+  </div>
+</mat-toolbar>

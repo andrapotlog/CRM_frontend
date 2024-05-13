@@ -1,5 +1,4 @@
 import { AuthActions, SET_AUTH, SET_UNAUTH } from './auth.actions';
-import { state } from '@angular/animations';
 
 export interface State {
   isAuth: boolean;
@@ -13,10 +12,16 @@ export function authReducer(state = initialState, action: AuthActions) {
   switch (action.type) {
     case SET_AUTH:
       return {
+        ...state,
         isAuth: true,
       };
     case SET_UNAUTH:
-      return { isAuth: false };
+      return {
+        ...state,
+        isAuth: false,
+      };
+    default:
+      return state;
   }
 }
 
