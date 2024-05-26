@@ -1,0 +1,24 @@
+.dashboard {
+  width: 95%;
+  /*display: flex;*/
+  flex-direction: column;
+  align-items: center;
+}
+
+dashboard-line {
+
+}
+
+.dashboard-card {
+  width: 300px;
+  margin: 20px;
+}
+
+canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.category-metrics {
+  margin-top: 20px;
+}

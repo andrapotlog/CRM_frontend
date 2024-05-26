@@ -1,0 +1,25 @@
+<p>announcements works!</p>
+
+<div class="announcement-container">
+    <h2>Announcements</h2>
+
+    <!--only for employees-->
+    <button mat-raised-button color="primary" type="submit">Post Announcement</button>
+
+
+  <div class="announcement-list">
+    <mat-card *ngFor="let announcement of (announcements$ | async)" class="announcement-card">
+      <mat-card-header>
+        <mat-card-title>{{ announcement.title }}</mat-card-title>
+        <mat-card-subtitle>{{ announcement.createdAt }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p *ngIf="!announcement.expanded">{{ announcement.content | truncate:300 }}<span >...</span></p>
+        <p *ngIf="announcement.expanded">{{ announcement.content }}</p>
+        <button mat-button color="primary" (click)="toggleContent(announcement)">
+          {{ announcement.expanded ? 'See Less' : 'See More' }}
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

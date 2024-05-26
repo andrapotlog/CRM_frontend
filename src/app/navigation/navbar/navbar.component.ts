@@ -35,6 +35,19 @@ export class NavbarComponent implements OnInit {
   goToProfile() {
     this.router.navigateByUrl('/profile');
   }
+
+  goToServiceRequest() {
+    this.router.navigateByUrl('/service-request');
+  }
+
+  goToAnnouncements() {
+    this.router.navigateByUrl('/announcements');
+  }
+
+  goToDashboard(){
+    this.router.navigateByUrl('/dashboard');
+  }
+
   navigateToHome() {
     this.router.navigateByUrl('/');
   }

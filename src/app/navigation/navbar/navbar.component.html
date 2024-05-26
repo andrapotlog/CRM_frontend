@@ -3,6 +3,9 @@
   <div class="navButton" *ngIf="(isAuth$ | async)">CRM</div>
   <div fxFlex fxLayoutAlign="flex-end">
    <div class="navButton" *ngIf="(isAuth$ | async)" (click)="goToProfile()">Profile</div>
-    <div class="navButton" *ngIf="(isAuth$ | async)" (click)="logOut()">Log out</div>
+   <div class="navButton" *ngIf="(isAuth$ | async)" (click)="goToServiceRequest()">Request</div>
+   <div class="navButton" *ngIf="(isAuth$ | async)" (click)="goToAnnouncements()">Announcements</div>
+   <div class="navButton" *ngIf="(isAuth$ | async)" (click)="goToDashboard()">Dashboard</div>
+   <div class="navButton" *ngIf="(isAuth$ | async)" (click)="logOut()">Log out</div>
   </div>
 </mat-toolbar>

@@ -1,0 +1,13 @@
+.announcement-container {
+  width: 90%;
+  margin: auto;
+}
+
+.announcement-list {
+  /*max-width: 800px;*/
+  margin: 20px auto;
+}
+
+.announcement-card {
+  margin-bottom: 15px;
+}

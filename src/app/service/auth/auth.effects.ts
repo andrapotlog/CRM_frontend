@@ -5,7 +5,7 @@ import {Store} from "@ngrx/store";
 import {AuthService} from "./auth.service";
 
 import * as AuthActions from './auth.actions'
-import * as UserModel from "../userService/user.model";
+import * as UserModel from "../user-service/user.model";
 import {switchMap} from "rxjs";
 import {authenticate} from "./auth.actions";
 

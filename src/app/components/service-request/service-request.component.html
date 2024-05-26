@@ -1,0 +1,67 @@
+<p>service-request works!</p>
+
+<h2>Submit a Service Request</h2>
+<form [formGroup]="serviceRequestForm" (ngSubmit)="onSubmit()">
+  <div class="form-container">
+    <mat-form-field class="form-container-field" appearance="outline">
+    <mat-label>Request Type</mat-label>
+      <mat-select formControlName="type">
+          <mat-option *ngFor="let type of requestTypes" [value]="type.value">{{ type.label }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="serviceRequestForm.get('type')?.hasError('required')">Request type is required.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-container-field" appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+      <mat-error *ngIf="serviceRequestForm.get('description')?.hasError('required')">Description is required.</mat-error>
+      <mat-error *ngIf="serviceRequestForm.get('description')?.hasError('minlength')">Description must be at least 10 characters long.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-container-field" appearance="outline">
+      <mat-label>Location</mat-label>
+      <input matInput formControlName="location">
+      <mat-error *ngIf="serviceRequestForm.get('location')?.hasError('required')">
+        Location is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-container-field" appearance="outline">
+      <mat-label>Urgency</mat-label>
+      <mat-select formControlName="urgency">
+        <mat-option *ngFor="let priority of priorities" [value]="priority">{{ priority }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="serviceRequestForm.get('urgency')?.hasError('required')">
+        Urgency level is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-container-field" appearance="outline">
+      <mat-label>Upload relevant documents</mat-label>
+      <input matInput formControlName="">
+    </mat-form-field>
+
+    <div class="button-container">
+      <button
+        mat-raised-button
+        type="submit"
+        color="primary"
+        [disabled]="serviceRequestForm.invalid"
+      >
+        Submit
+      </button>
+    </div>
+
+
+  </div>
+</form>
+
+<div class="button-container">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="goToTrackRequests()"
+  >
+    Check your requests
+  </button>
+</div>

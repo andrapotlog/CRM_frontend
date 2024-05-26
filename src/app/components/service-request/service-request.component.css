@@ -1,0 +1,13 @@
+.form-container {
+  width: 25rem;
+  text-align: center;
+}
+
+.form-container-field {
+  width: 20rem;
+  margin-bottom: 0.4rem;
+}
+
+button {
+  margin-top: 16px;
+}

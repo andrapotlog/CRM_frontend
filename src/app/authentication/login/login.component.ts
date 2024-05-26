@@ -5,11 +5,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { UserService } from '../../service/userService/user.service';
+import { UserService } from '../../service/./user-service/user.service';
 import { AuthService } from '../../service/auth/auth.service';
 import { Router } from '@angular/router';
 
-import * as UserModel from '../../service/userService/user.model';
+import * as UserModel from '../../service/./user-service/user.model';
 
 @Component({
   selector: 'app-login',

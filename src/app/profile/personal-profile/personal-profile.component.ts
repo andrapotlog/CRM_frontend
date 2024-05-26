@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../service/userService/user.service';
+import { UserService } from '../../service/./user-service/user.service';
 import { Store } from '@ngrx/store';
-import { loadUser } from '../../service/userService/user.action';
-import { selectCurrentUser } from '../../service/userService/user.reducer';
+import { loadUser } from '../../service/./user-service/user.action';
+import { selectCurrentUser } from '../../service/./user-service/user.reducer';
 import {
   FormBuilder,
   FormControl,

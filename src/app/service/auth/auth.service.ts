@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
-import * as fromModel from '../userService/user.model';
+import * as fromModel from '.././user-service/user.model';
 import * as fromReducer from '../../app.reducer';
 import * as Auth from '../auth/auth.actions';
 import { AuthResponseModel } from './auth-response.model';
@@ -23,7 +23,8 @@ export class AuthService {
   initAuthListener() {
     if (JSON.parse(localStorage.getItem('isAuth')!) === 'yes') {
       this.store.dispatch(new Auth.SetAuth());
-      this.router.navigateByUrl('/profile');
+      //this.router.navigateByUrl('/profile');
+      this.router.navigateByUrl('/dashboard');
     } else {
       this.store.dispatch(new Auth.SetUnauth());
       this.router.navigateByUrl('/');

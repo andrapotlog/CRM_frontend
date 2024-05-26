@@ -8,17 +8,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { PhoneNumberUtil } from 'google-libphonenumber';
-import { UserService } from '../../service/userService/user.service';
+import { UserService } from '../../service/./user-service/user.service';
 import { AuthService } from '../../service/auth/auth.service';
 import { Store } from '@ngrx/store';
 
-import * as UserModel from '../../service/userService/user.model';
+import * as UserModel from '../../service/./user-service/user.model';
 
-import { createUser, loadUsers } from '../../service/userService/user.action';
+import { createUser, loadUsers } from '../../service/./user-service/user.action';
 import {
   selectError,
   selectUsers,
-} from '../../service/userService/user.reducer';
+} from '../../service/./user-service/user.reducer';
 
 interface CountryCode {
   code: number;
@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
   maxDate: Date;
 
   credentialsPage = true;
-  personalDataPage = false;
+  personalDataPage = true;
 
   userCredentialsError = false;
   cnpAlreadyExistsError = false;
@@ -126,7 +126,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.countryCodes = this.getCountryCodes();
 
-    /*this.userService.getUsers().subscribe((users) => console.log(users));
+    /*this.user-service.getUsers().subscribe((users) => console.log(users));
      */
     this.store.dispatch(loadUsers());
 
@@ -162,7 +162,7 @@ export class RegisterComponent implements OnInit {
   }
 
   finalSubmit() {
-    /*this.userService
+    /*this.user-service
       .registerUserData({
         firstName: this.credentialsForm.controls['firstName'].value,
         lastName: this.credentialsForm.controls['lastName'].value,
