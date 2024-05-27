@@ -9,6 +9,7 @@ import {FinancialComponent} from "./financial/financial.component";
 import {AnnouncementsComponent} from "./announcements/announcements.component";
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {BaseChartDirective} from "ng2-charts";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {BaseChartDirective} from "ng2-charts";
     ReactiveFormsModule,
     MatFormFieldModule,
     BaseChartDirective,
+    MatButtonToggleModule,
   ],
   exports: [],
 })

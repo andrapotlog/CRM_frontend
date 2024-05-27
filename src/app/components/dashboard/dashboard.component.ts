@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {AnalyticsData} from "../../service/analytics-service/analytics.model";
-import {map, Observable, of} from "rxjs";
+import {filter, map, Observable, of} from "rxjs";
 import {AnalyticsService} from "../../service/analytics-service/analytics.service";
 import _default from "chart.js/dist/core/core.interaction";
 import dataset = _default.modes.dataset;
 import {Chart, ChartDataset, ChartType, registerables} from "chart.js";
+import {PdfGeneratorService} from "../../service/pdf-generator-service/pdf-generator.service";
 
 Chart.register(...registerables);
 
@@ -27,17 +28,25 @@ export class DashboardComponent implements OnInit{
   categoryResolutionRateData$: Observable<ChartDataset<'pie', number[]>[]>;
   categoryChartType: ChartType = 'bar';
 
-  constructor(private analyticsService: AnalyticsService) {
+  combinedCategoryData$: Observable<ChartDataset<'pie', number[]>[]>;
+
+  constructor(private analyticsService: AnalyticsService, private pdfGeneratorService: PdfGeneratorService) {
     this.analyticsData$ = this.analyticsService.getAnalytics();
 
     this.barChartData$ = this.analyticsData$.pipe(
-      map(data => [
-        { data: data.casesResolvedPerMonth.map(item => item.count), label: 'Cases Resolved' }
-      ] as ChartDataset<'bar', number[]>[])
-    );
+      map(data => data.casesResolved.map(yearData => ({
+        data: yearData.metrics.map(metric => metric.count),
+        label: yearData.year,
+        fill: true,
+        tension: 0.4
+      }))
+    ));
 
     this.barChartLabels$ = this.analyticsData$.pipe(
-      map(data => data.casesResolvedPerMonth.map(item => item.month))
+      map(data => data.casesResolved
+        .filter(item => item.year === '2023')[0].metrics
+        .map(item => item.month)
+      )
     )
 
     this.categoryMetricsData$ = this.analyticsData$.pipe(
@@ -66,6 +75,25 @@ export class DashboardComponent implements OnInit{
       }])
     )
 
+    this.combinedCategoryData$ = this.analyticsData$.pipe(
+      map(data => [
+        {
+          data: data.categoryMetrics.map(item => item.responseTime),
+          label: 'Average Response Time (minutes)',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1,
+        },
+        {
+          data: data.categoryMetrics.map(item => item.rate * 100),
+          label: 'Resolution Rate (%)',
+          backgroundColor: 'rgba(153, 102, 255, 0.2)',
+          borderColor: 'rgba(153, 102, 255, 1)',
+          borderWidth: 1,
+        },
+      ])
+    )
+
   }
 
   ngOnInit(): void {
@@ -74,4 +102,11 @@ export class DashboardComponent implements OnInit{
     this.categoryMetricsData$.subscribe(res=>console.log(res))
   }
 
+  toggleChart() {
+      this.barChartType = this.barChartType === 'bar' ? 'line' : 'bar';
+  }
+
+  downloadPdf(): void {
+    this.pdfGeneratorService.downloadPdf('dashboard-content', 'dashboard.pdf');
+  }
 }

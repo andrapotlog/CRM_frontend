@@ -1,7 +1,11 @@
 <p>dashboard works!</p>
 
+<div class="col-12 text-center mt-4">
+  <button class="btn btn-primary" (click)="downloadPdf()">Download as PDF</button>
+</div>
+
 <!-- src/app/components/dashboard/dashboard.component.html -->
-<div class="dashboard">
+<div id="dashboard-content" class="dashboard">
   <h2>Dashboard</h2>
 
   <div class="dashboard-line">
@@ -34,21 +38,26 @@
   </div>
 
 
-    <mat-card class="">
-      <mat-card-header>
-        <mat-card-title>Cases Resolved Per Month</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <canvas baseChart
-                [datasets]="(barChartData$ | async) || undefined"
-                [labels]="(barChartLabels$ | async) || undefined"
-                [options]="{ responsive: true }"
-                [legend]="true"
-                [type]="barChartType">
-        </canvas>
-      </mat-card-content>
+  <mat-card class="dashboard-bar mt-3">
+    <mat-card-header>
+      <mat-card-title>Cases Resolved Per Month</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <canvas baseChart
+              [datasets]="(barChartData$ | async) || undefined"
+              [labels]="(barChartLabels$ | async) || undefined"
+              [options]="{ responsive: true }"
+              [legend]="true"
+
+              [type]="barChartType">
+      </canvas>
+    </mat-card-content>
+    <mat-card-actions>
+      <mat-button-toggle (click)="toggleChart()">Toggle</mat-button-toggle>
+    </mat-card-actions>
     </mat-card>
-  <mat-card class="dashboard-card">
+
+  <!--<mat-card class="dashboard-card">
     <mat-card-header>
       <mat-card-title>Metrics by Category</mat-card-title>
     </mat-card-header>
@@ -59,9 +68,9 @@
         <p>Resolution Rate: {{ categoryData.rate }}</p>
       </div>
     </mat-card-content>
-  </mat-card>
+  </mat-card>-->
 
-  <mat-card class="">
+  <!--<mat-card class="">
     <mat-card-header>
       <mat-card-title>Average Response Time by Category</mat-card-title>
     </mat-card-header>
@@ -74,35 +83,52 @@
               [type]="'bar'">
       </canvas>
     </mat-card-content>
-  </mat-card>
+  </mat-card>-->
 
-  <mat-card class="">
+  <div class="dashboard-line mt-3">
+    <mat-card class="dashboard-pie">
+      <mat-card-header>
+        <mat-card-title>Average Response Time by Category</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <canvas baseChart
+                [datasets]="(categoryResponseTimeData$ | async) || undefined"
+                [labels]="(categoryChartLabels$ | async) || undefined"
+                [options]="{ responsive: true }"
+                [legend]="true"
+                [type]="'pie'">
+        </canvas>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="dashboard-pie">
+      <mat-card-header>
+        <mat-card-title>Resolution Rate by Category</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <canvas baseChart
+                [datasets]="(categoryResolutionRateData$ | async) || undefined"
+                [labels]="(categoryChartLabels$ | async) || undefined"
+                [options]="{ responsive: true }"
+                [legend]="true"
+                [type]="'pie'">
+        </canvas>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!--<mat-card class="dashboard-pie">
     <mat-card-header>
-      <mat-card-title>Average Response Time by Category</mat-card-title>
+      <mat-card-title>Combined Metrics by Category</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <canvas baseChart
-              [datasets]="(categoryResponseTimeData$ | async) || undefined"
+              [datasets]="(combinedCategoryData$ | async) || undefined"
               [labels]="(categoryChartLabels$ | async) || undefined"
-              [options]="{ responsive: true }"
+              [options]="{ responsive: true}"
               [legend]="true"
               [type]="'pie'">
       </canvas>
     </mat-card-content>
-  </mat-card>
-
-  <mat-card class=>
-    <mat-card-header>
-      <mat-card-title>Resolution Rate by Category</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <canvas baseChart
-              [datasets]="(categoryResolutionRateData$ | async) || undefined"
-              [labels]="(categoryChartLabels$ | async) || undefined"
-              [options]="{ responsive: true }"
-              [legend]="true"
-              [type]="'pie'">
-      </canvas>
-    </mat-card-content>
-  </mat-card>
+  </mat-card>-->
 </div>

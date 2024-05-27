@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Observable, of} from "rxjs";
 import {AnalyticsData} from "./analytics.model";
+/*import {Gtag} from "angular-gtag";
+import {NavigationEnd, Router} from "@angular/router";*/
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,54 @@ export class AnalyticsService {
     averageResponseTime: 45,
     caseResolutionRate: 0.85,
     publicSatisfactionScore: 4.2,
-    casesResolvedPerMonth: [
+    casesResolved: [
+      {
+        year: '2022',
+        metrics: [
+          { month: 'January', count: 20 },
+          { month: 'February', count: 35 },
+          { month: 'March', count: 55 },
+          { month: 'April', count: 30 },
+          { month: 'May', count: 25 },
+          { month: 'June', count: 40 },
+          { month: 'July', count: 20 },
+          { month: 'August', count: 22 },
+          { month: 'September', count: 30 },
+          { month: 'October', count: 38 },
+          { month: 'November', count: 25 },
+          { month: 'December', count: 14 }
+        ]
+      },
+      {
+        year: '2023',
+        metrics: [
+          { month: 'January', count: 34 },
+          { month: 'February', count: 42 },
+          { month: 'March', count: 56 },
+          { month: 'April', count: 44 },
+          { month: 'May', count: 38 },
+          { month: 'June', count: 50 },
+          { month: 'July', count: 60 },
+          { month: 'August', count: 48 },
+          { month: 'September', count: 52 },
+          { month: 'October', count: 58 },
+          { month: 'November', count: 54 },
+          { month: 'December', count: 62 }
+        ]
+      },
+      {
+        year: '2024',
+        metrics: [
+          { month: 'January', count: 40 },
+          { month: 'February', count: 25 },
+          { month: 'March', count: 60 },
+          { month: 'April', count: 45 },
+          { month: 'May', count: 35 },
+        ]
+      }
+    ],
+
+    /*casesResolvedPerMonth: [
       { month: 'January', count: 34 },
       { month: 'February', count: 42 },
       { month: 'March', count: 56 },
@@ -25,7 +74,7 @@ export class AnalyticsService {
       { month: 'October', count: 58 },
       { month: 'November', count: 54 },
       { month: 'December', count: 62 }
-    ],
+    ],*/
     categoryMetrics: [
       { category: 'Street Repair', responseTime: 40, rate: 0.90 },
       { category: 'Waste Collection', responseTime: 30, rate: 0.80 },
@@ -45,9 +94,25 @@ export class AnalyticsService {
     ]
   };
 
-  constructor() { }
+  constructor(/*private gtag: Gtag, private router: Router*/) {
+    /*this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.gtag.pageview({
+          page_path: event.urlAfterRedirects
+        });
+      }
+    });*/
+  }
 
   getAnalytics(): Observable<AnalyticsData> {
     return of(this.analytics)
   }
+
+ /* trackEvent(action: string, category: string, label: string, value?: number): void {
+    this.gtag.event(action, {
+      event_category: category,
+      event_label: label,
+      value: value
+    });
+  }*/
 }

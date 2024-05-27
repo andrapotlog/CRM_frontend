@@ -19,6 +19,7 @@ import { CrmStoreModule } from './service/crm-store.module';
 import { PersonalProfileComponent } from './profile/personal-profile/personal-profile.component';
 import {ComponentsModule} from "./components/components.module";
 import {AnnouncementService} from "./service/announcement-service/announcement.service";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -39,6 +40,7 @@ import {AnnouncementService} from "./service/announcement-service/announcement.s
     CrmStoreModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([]),
+    NgbModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
