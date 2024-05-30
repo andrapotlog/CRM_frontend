@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { UserService } from './user.service';
 
-import * as UserActions from './user.action';
-import { catchError, mergeMap, Observable, switchMap } from 'rxjs';
+import * as UserActions from './user.actions';
+import { catchError, Observable, switchMap } from 'rxjs';
 import { UserModel } from './user.model';
 import { HttpErrorResponse } from '@angular/common/http';
 

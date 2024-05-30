@@ -10,6 +10,7 @@ import {AnnouncementsComponent} from "./announcements/announcements.component";
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {BaseChartDirective} from "ng2-charts";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MapComponent} from "./map/map/map.component";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     TrackRequestsComponent,
     FinancialComponent,
     AnnouncementsComponent,
-    DashboardComponent
+    DashboardComponent,
+    MapComponent
   ],
   imports: [
     SharedModule,

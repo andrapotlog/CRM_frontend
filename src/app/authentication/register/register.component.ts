@@ -8,17 +8,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { PhoneNumberUtil } from 'google-libphonenumber';
-import { UserService } from '../../service/./user-service/user.service';
+import { UserService } from '../../service/user-service/user.service';
 import { AuthService } from '../../service/auth/auth.service';
 import { Store } from '@ngrx/store';
 
 import * as UserModel from '../../service/./user-service/user.model';
 
-import { createUser, loadUsers } from '../../service/./user-service/user.action';
+import { createUser, loadUsers } from '../../service/user-service/user.actions';
 import {
   selectError,
   selectUsers,
-} from '../../service/./user-service/user.reducer';
+} from '../../service/user-service/user.reducer';
 
 interface CountryCode {
   code: number;
@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
   maxDate: Date;
 
   credentialsPage = true;
-  personalDataPage = true;
+  personalDataPage = false;
 
   userCredentialsError = false;
   cnpAlreadyExistsError = false;

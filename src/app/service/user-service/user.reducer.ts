@@ -1,15 +1,13 @@
 import {
   createFeature,
-  createFeatureSelector,
   createReducer,
-  createSelector,
   on,
 } from '@ngrx/store';
 import { Nullable } from '../../../global.module';
 import { UserModel } from './user.model';
 import { ErrorModel } from '../error.interface';
 
-import * as UserActions from './user.action';
+import * as UserActions from './user.actions';
 
 export interface State {
   users: UserModel[];

@@ -4,9 +4,9 @@
 <form [formGroup]="serviceRequestForm" (ngSubmit)="onSubmit()">
   <div class="form-container">
     <mat-form-field class="form-container-field" appearance="outline">
-    <mat-label>Request Type</mat-label>
+      <mat-label>Request Type</mat-label>
       <mat-select formControlName="type">
-          <mat-option *ngFor="let type of requestTypes" [value]="type.value">{{ type.label }}</mat-option>
+          <mat-option *ngFor="let type of requestTypes" [value]="type.label">{{ type.label }}</mat-option>
       </mat-select>
       <mat-error *ngIf="serviceRequestForm.get('type')?.hasError('required')">Request type is required.</mat-error>
     </mat-form-field>
@@ -27,18 +27,18 @@
     </mat-form-field>
 
     <mat-form-field class="form-container-field" appearance="outline">
-      <mat-label>Urgency</mat-label>
-      <mat-select formControlName="urgency">
-        <mat-option *ngFor="let priority of priorities" [value]="priority">{{ priority }}</mat-option>
+      <mat-label>Priority</mat-label>
+      <mat-select formControlName="priority">
+        <mat-option *ngFor="let priority of priorities" [value]="priority.toUpperCase()">{{ priority }}</mat-option>
       </mat-select>
-      <mat-error *ngIf="serviceRequestForm.get('urgency')?.hasError('required')">
-        Urgency level is required.
+      <mat-error *ngIf="serviceRequestForm.get('priority')?.hasError('required')">
+        Priority level is required.
       </mat-error>
     </mat-form-field>
 
     <mat-form-field class="form-container-field" appearance="outline">
       <mat-label>Upload relevant documents</mat-label>
-      <input matInput formControlName="">
+      <input matInput formControlName="documents">
     </mat-form-field>
 
     <div class="button-container">

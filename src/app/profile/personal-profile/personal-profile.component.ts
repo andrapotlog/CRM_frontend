@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../service/./user-service/user.service';
+import { UserService } from '../../service/user-service/user.service';
 import { Store } from '@ngrx/store';
-import { loadUser } from '../../service/./user-service/user.action';
-import { selectCurrentUser } from '../../service/./user-service/user.reducer';
+import { loadUser } from '../../service/user-service/user.actions';
+import { selectCurrentUser } from '../../service/user-service/user.reducer';
 import {
   FormBuilder,
   FormControl,
@@ -46,6 +46,10 @@ export class PersonalProfileComponent implements OnInit {
   }
   ngOnInit(): void {
     this.store.dispatch(loadUser());
-    this.currentUser$.subscribe((res) => console.log(res));
+    this.currentUser$.subscribe((res) => {
+      console.log(res)
+      console.log(res?.id_user)
+      localStorage.setItem('userId', JSON.stringify(res?.id_user));
+    });
   }
 }

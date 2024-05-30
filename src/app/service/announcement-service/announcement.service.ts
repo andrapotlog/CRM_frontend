@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Announcement} from "./announcement.model";
-import {Observable, of} from "rxjs";
+import {Observable,} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AnnouncementService {
-  private apiUrl = 'http://localhost:8080/api/announcements';
+  private apiUrl = 'http://localhost:7070/api/announcements';
 
-  announcements: Announcement[] = [
+ /* announcements: Announcement[] = [
     {
       id: 1,
       title: 'No hot water',
@@ -24,18 +24,18 @@ export class AnnouncementService {
       createdAt: '21/05/2024T21:00',
       expanded: false
     }
-  ]
+  ]*/
 
   constructor(private http: HttpClient) { }
 
   getAnnouncements(): Observable<Announcement[]> {
-    return of(this.announcements);
-   // return this.http.get<Announcement[]>(this.apiUrl);
+    //return of(this.announcements);
+    return this.http.get<Announcement[]>(this.apiUrl);
   }
 
   createAnnouncement(announcement: Announcement) {
-    this.announcements.unshift(announcement);
-    //return this.http.post<Announcement>(this.apiUrl, announcement);
+    //this.announcements.unshift(announcement);
+    return this.http.post<Announcement>(this.apiUrl, announcement);
   }
 
 }

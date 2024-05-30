@@ -2,7 +2,18 @@
   width: 90%;
   justify-content: center;
   margin: auto;
+}
 
+.track-requests-filter-pannel {
+  margin-bottom: 20px;
+}
+
+mat-panel-title {
+  font-size: 20px;
+  height: 80px;
+}
+mat-expansion-panel-header {
+  height: 60px;
 }
 
 .mat-elevation-z8 {

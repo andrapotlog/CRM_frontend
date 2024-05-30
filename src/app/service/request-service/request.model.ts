@@ -13,11 +13,14 @@ export enum RequestStatusEnum {
 }
 
 export interface ServiceRequestModel {
-  id: string;
+  id?: number;
   type: string;
   description: string;
   location: string;
-  urgency: string;
-  status: RequestStatusEnum;
-  date: string;
+  priority: PriorityEnum;
+  status?: RequestStatusEnum;
+  date?: string;
+  created_by_user: number;
+  city: string;
+  street: string;
 }

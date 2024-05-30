@@ -10,7 +10,7 @@ import { UserModel } from './user.model';
   providedIn: 'root',
 })
 export class UserService {
-  test_url = 'http://localhost:8080/users/';
+  test_url = 'http://localhost:9090/users/';
 
   constructor(
     private http: HttpClient,

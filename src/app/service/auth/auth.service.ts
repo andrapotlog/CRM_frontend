@@ -12,7 +12,7 @@ import { AuthResponseModel } from './auth-response.model';
   providedIn: 'root',
 })
 export class AuthService {
-  test_url = 'http://localhost:8080/authentication/';
+  test_url = 'http://localhost:9090/authentication/';
 
   constructor(
     private http: HttpClient,
@@ -24,7 +24,7 @@ export class AuthService {
     if (JSON.parse(localStorage.getItem('isAuth')!) === 'yes') {
       this.store.dispatch(new Auth.SetAuth());
       //this.router.navigateByUrl('/profile');
-      this.router.navigateByUrl('/dashboard');
+      this.router.navigateByUrl('/track-request');
     } else {
       this.store.dispatch(new Auth.SetUnauth());
       this.router.navigateByUrl('/');
