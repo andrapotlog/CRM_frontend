@@ -1,8 +1,4 @@
-import {
-  createFeature,
-  createReducer,
-  on,
-} from '@ngrx/store';
+import { createFeature, createReducer, on } from '@ngrx/store';
 import { Nullable } from '../../../global.module';
 import { UserModel } from './user.model';
 import { ErrorModel } from '../error.interface';
@@ -12,6 +8,7 @@ import * as UserActions from './user.actions';
 export interface State {
   users: UserModel[];
   currentUser: Nullable<UserModel>;
+  currentUserLocation: Nullable<string>;
   error: Nullable<ErrorModel>;
   loading: boolean;
 }
@@ -19,6 +16,7 @@ export interface State {
 export const initialState: State = {
   users: [],
   currentUser: null,
+  currentUserLocation: null,
   error: null,
   loading: false,
 };
@@ -63,10 +61,27 @@ export const userReducer = createReducer(
   on(UserActions.loadUserSuccess, (state, { payload }) => ({
     ...state,
     currentUser: payload,
+    currentUserLocation: payload.city,
     loading: false,
   })),
 
   on(UserActions.loadUserFailure, (state, { error }) => ({
+    ...state,
+    error: error,
+    loading: false,
+  })),
+
+  on(UserActions.updateUser, (state, { payload }) => ({
+    ...state,
+    loading: true,
+    // currentUser: null
+  })),
+
+  on(UserActions.updateUserSuccess, (state) => ({
+    ...state,
+  })),
+
+  on(UserActions.updateUserFailure, (state, { error }) => ({
     ...state,
     error: error,
     loading: false,
@@ -84,6 +99,7 @@ export const {
   selectUserState,
   selectUsers,
   selectCurrentUser,
+  selectCurrentUserLocation,
   selectError,
   selectLoading,
 } = userFeature;

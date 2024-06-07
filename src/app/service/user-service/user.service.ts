@@ -4,13 +4,12 @@ import { Observable } from 'rxjs';
 
 import * as fromModel from './user.model';
 import { Router } from '@angular/router';
-import { UserModel } from './user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  test_url = 'http://localhost:9090/users/';
+  test_url = 'http://localhost:9090/users';
 
   constructor(
     private http: HttpClient,
@@ -35,12 +34,21 @@ export class UserService {
     return request;
   }
 
-  getUser(): Observable<UserModel> {
+  getUser(): Observable<fromModel.UserModel> {
     const token = JSON.parse(localStorage.getItem('token')!);
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    return this.http.get<fromModel.UserModel>(this.test_url + 'user', config);
+    return this.http.get<fromModel.UserModel>(this.test_url + '/user', config);
+  }
+
+  modifyUserData(user: fromModel.UserModel) {
+    const token = JSON.parse(localStorage.getItem('token')!);
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    return this.http.put<fromModel.UserModel>(this.test_url, user, config);
   }
 }

@@ -20,7 +20,11 @@ export class UserEffects {
           ]),
           catchError((error: HttpErrorResponse) => {
             console.log(error);
-            return [UserActions.loadUsersFailure({ error: error.error })];
+            return [
+              UserActions.loadUsersFailure({
+                error: error.error,
+              }),
+            ];
           }),
         ),
       ),
@@ -35,7 +39,11 @@ export class UserEffects {
           switchMap(() => [UserActions.createUserSuccess()]),
           catchError((error: HttpErrorResponse) => {
             console.log(error);
-            return [UserActions.createUserFailure({ error: error.error })];
+            return [
+              UserActions.createUserFailure({
+                error: error.error,
+              }),
+            ];
           }),
         ),
       ),
@@ -47,12 +55,39 @@ export class UserEffects {
       ofType(UserActions.loadUser),
       switchMap(() =>
         this.loadUser().pipe(
-          switchMap((result) => [
-            UserActions.loadUserSuccess({ payload: result }),
+          switchMap((result) => {
+            console.log('load user');
+            return [UserActions.loadUserSuccess({ payload: result })];
+          }),
+          catchError((error: HttpErrorResponse) => {
+            console.log(error);
+            return [
+              UserActions.loadUsersFailure({
+                error: error.error,
+              }),
+            ];
+          }),
+        ),
+      ),
+    ),
+  );
+
+  updateUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.updateUser),
+      switchMap(({ payload }) =>
+        this.modifyUser(payload).pipe(
+          switchMap((updatedUser) => [
+            UserActions.updateUserSuccess(),
+            UserActions.loadUser(), // Dispatch loadUser to reload user data
           ]),
           catchError((error: HttpErrorResponse) => {
             console.log(error);
-            return [UserActions.loadUsersFailure({ error: error.error })];
+            return [
+              UserActions.updateUserFailure({
+                error: error.error,
+              }),
+            ];
           }),
         ),
       ),
@@ -75,5 +110,9 @@ export class UserEffects {
 
   loadUser(): Observable<UserModel> {
     return this.userService.getUser();
+  }
+
+  modifyUser(payload: UserModel) {
+    return this.userService.modifyUserData(payload);
   }
 }

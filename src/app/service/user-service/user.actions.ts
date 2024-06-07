@@ -37,3 +37,13 @@ export const loadUserFailure = createAction(
   '[USER] Load User Failure',
   props<{ error: ErrorModel }>(),
 );
+
+export const updateUser = createAction(
+  '[USER] Update User',
+  props<{ payload: UserModel }>(),
+);
+export const updateUserSuccess = createAction('[USER] Update User Success');
+export const updateUserFailure = createAction(
+  '[USER] Update User Failure',
+  props<{ error: ErrorModel }>(),
+);
