@@ -16,19 +16,13 @@ import { AuthService } from './service/auth/auth.service';
 import { UserService } from './service/user-service/user.service';
 import { EffectsModule } from '@ngrx/effects';
 import { CrmStoreModule } from './service/crm-store.module';
-import { PersonalProfileComponent } from './profile/personal-profile/personal-profile.component';
-import {ComponentsModule} from "./components/components.module";
-import {AnnouncementService} from "./service/announcement-service/announcement.service";
+import { ComponentsModule } from './components/components.module';
+import { AnnouncementService } from './service/announcement-service/announcement.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    PersonalProfileComponent,
-  ],
+  declarations: [AppComponent, NavbarComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -41,12 +35,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([]),
     NgbModule,
+    NgxMaskDirective,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     AuthService,
     UserService,
-    AnnouncementService
+    AnnouncementService,
+    provideNgxMask(),
   ],
   bootstrap: [AppComponent],
 })

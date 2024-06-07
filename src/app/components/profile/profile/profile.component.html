@@ -1,0 +1,252 @@
+<p>profile works!</p>
+
+<ng-container *ngIf="loading$ | async; else loadedPage">
+    <div class="d-flex justify-content-center mt-4">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</ng-container>
+
+<ng-template #loadedPage>
+    <div class="profile-component" *ngIf="currentUser$ | async as user">
+        <h1>
+            {{ user.firstName }} {{ user.lastName }}, welcome to your Citizen
+            Portal
+        </h1>
+        <p>
+            This is your one-stop platform for all public services and
+            information.
+        </p>
+
+        <form
+            class="register-body-form"
+            [formGroup]="userDataForm"
+            (ngSubmit)="updatePersonalData()"
+        >
+            <div class="profile-form">
+                <div>
+                    <mat-form-field
+                        class="register-body-field"
+                        appearance="outline"
+                    >
+                        <mat-label>First Name</mat-label>
+                        <input
+                            matInput
+                            formControlName="firstName"
+                            required
+                            type="text"
+                            [readonly]="viewOnly"
+                        />
+                        <!--<mat-error
+                        *ngIf="userDataForm.controls['firstName'].hasError('pattern')"
+                    >
+                        Invalid input
+                    </mat-error>-->
+                    </mat-form-field>
+                </div>
+
+                <div class="register-body-field-container">
+                    <mat-form-field
+                        class="register-body-field"
+                        appearance="outline"
+                    >
+                        <mat-label>Last Name</mat-label>
+                        <input
+                            matInput
+                            formControlName="lastName"
+                            required
+                            type="text"
+                            [readonly]="viewOnly"
+                        />
+                        <!--<mat-error
+                        *ngIf="credentialsForm.controls['lastName'].hasError('pattern')"
+                    >
+                        Invalid input
+                    </mat-error>-->
+                    </mat-form-field>
+                </div>
+
+                <div class="register-body-field-container">
+                    <mat-form-field
+                        class="register-body-field"
+                        appearance="outline"
+                    >
+                        <mat-label>Email</mat-label>
+                        <input
+                            matInput
+                            formControlName="email"
+                            required
+                            type="email"
+                            [readonly]="true"
+                        />
+                        <!--<mat-error *ngIf="credentialsForm.controls['email'].hasError('email')">
+                        Invalid email address
+                    </mat-error>-->
+                    </mat-form-field>
+                </div>
+
+                <div class="register-body-field-container">
+                    <mat-form-field
+                        class="register-body-field"
+                        appearance="outline"
+                    >
+                        <mat-label>Client code</mat-label>
+                        <input
+                            matInput
+                            formControlName="clientCode"
+                            required
+                            type="text"
+                            [readonly]="true"
+                        />
+                        <!--<mat-error
+                        *ngIf="credentialsForm.controls['clientCode'].hasError('pattern')"
+                    >
+                        Invalid client code
+                    </mat-error>-->
+                    </mat-form-field>
+                </div>
+
+                <div class="register-body-field-container">
+                    <mat-form-field
+                        class="register-body-field"
+                        appearance="outline"
+                    >
+                        <mat-label>Identity number</mat-label>
+                        <input
+                            matInput
+                            formControlName="cnp"
+                            required
+                            type="text"
+                            [readonly]="true"
+                        />
+                        <!--<mat-error
+                        *ngIf="
+                personalDataForm.controls['cnp'].hasError('pattern') ||
+                personalDataForm.controls['cnp'].hasError('cnpInvalid')
+              "
+                    >
+                        Invalid id
+                    </mat-error>-->
+                    </mat-form-field>
+                </div>
+
+                <div class="register-body-field-container-phone">
+                    <mat-form-field
+                        class="register-body-field-number"
+                        appearance="outline"
+                    >
+                        <mat-label>Phone Number</mat-label>
+                        <input
+                            matInput
+                            formControlName="phoneNumber"
+                            required
+                            type="text"
+                            [readonly]="viewOnly"
+                        />
+                        <!--<mat-error
+                        *ngIf="
+                    personalDataForm.controls['phoneNumber'].hasError(
+                      'phoneNumberInvalid'
+                    )
+                  "
+                    >
+                        Invalid input
+                    </mat-error>-->
+                    </mat-form-field>
+                </div>
+
+                <div class="register-body-field-container">
+                    <mat-form-field
+                        class="register-body-field"
+                        appearance="outline"
+                    >
+                        <mat-label>Address</mat-label>
+                        <input
+                            matInput
+                            formControlName="address"
+                            required
+                            type="text"
+                            [readonly]="viewOnly"
+                        />
+                    </mat-form-field>
+                </div>
+
+                <div class="register-body-field-container">
+                    <mat-form-field
+                        class="register-body-field"
+                        appearance="outline"
+                    >
+                        <mat-label>City</mat-label>
+                        <input
+                            matInput
+                            formControlName="city"
+                            required
+                            type="text"
+                            [readonly]="viewOnly"
+                        />
+                    </mat-form-field>
+                </div>
+
+                <div class="register-body-field-container">
+                    <mat-form-field
+                        class="register-body-field"
+                        appearance="outline"
+                    >
+                        <mat-label>Country</mat-label>
+                        <input
+                            matInput
+                            formControlName="country"
+                            required
+                            type="text"
+                            [readonly]="viewOnly"
+                        />
+                    </mat-form-field>
+                </div>
+
+                <div class="register-body-field-container">
+                    <mat-form-field
+                        class="register-body-field"
+                        appearance="outline"
+                    >
+                        <mat-label>Postal Code</mat-label>
+                        <input
+                            matInput
+                            formControlName="postalCode"
+                            required
+                            type="text"
+                            [readonly]="viewOnly"
+                        />
+                        <!--<mat-error
+                        *ngIf="
+                personalDataForm.controls['postalCode'].hasError('pattern')
+              "
+                    >
+                        Invalid pattern
+                    </mat-error>-->
+                    </mat-form-field>
+                </div>
+
+                <button
+                    class="register-body-form-submit"
+                    mat-raised-button
+                    color="primary"
+                    *ngIf="viewOnly"
+                    (click)="editData()"
+                >
+                    Edit personal data
+                </button>
+
+                <button
+                    class="register-body-form-submit"
+                    mat-raised-button
+                    type="submit"
+                    color="primary"
+                    *ngIf="!viewOnly"
+                >
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>
