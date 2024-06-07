@@ -24,7 +24,7 @@ export class AuthService {
     if (JSON.parse(localStorage.getItem('isAuth')!) === 'yes') {
       this.store.dispatch(new Auth.SetAuth());
       //this.router.navigateByUrl('/profile');
-      this.router.navigateByUrl('/track-request');
+      this.router.navigateByUrl('/announcements');
     } else {
       this.store.dispatch(new Auth.SetUnauth());
       this.router.navigateByUrl('/');
