@@ -14,6 +14,7 @@ import { AuthService } from '../../service/auth/auth.service';
 export class NavbarComponent implements OnInit {
   // @ts-ignore
   isAuth$: Observable<boolean>;
+
   constructor(
     private router: Router,
     private store: Store<fromReducer.State>,
@@ -36,6 +37,10 @@ export class NavbarComponent implements OnInit {
     this.router.navigateByUrl('/profile');
   }
 
+  goToPayments() {
+    this.router.navigateByUrl('/payment');
+  }
+
   goToServiceRequest() {
     this.router.navigateByUrl('/service-request');
   }
@@ -44,13 +49,14 @@ export class NavbarComponent implements OnInit {
     this.router.navigateByUrl('/announcements');
   }
 
-  goToDashboard(){
+  goToDashboard() {
     this.router.navigateByUrl('/dashboard');
   }
 
   navigateToHome() {
     this.router.navigateByUrl('/');
   }
+
   logOut() {
     this.auhService.logOut();
   }

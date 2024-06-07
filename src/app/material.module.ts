@@ -6,9 +6,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatTableModule } from "@angular/material/table";
+import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
-import {MatExpansionModule} from "@angular/material/expansion";
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   imports: [
@@ -21,7 +23,9 @@ import {MatExpansionModule} from "@angular/material/expansion";
     MatToolbarModule,
     MatTableModule,
     MatCardModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatDialogModule,
+    MatChipsModule,
   ],
   exports: [
     MatButtonModule,
@@ -33,7 +37,9 @@ import {MatExpansionModule} from "@angular/material/expansion";
     MatToolbarModule,
     MatTableModule,
     MatCardModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatDialogModule,
+    MatChipsModule,
   ],
 })
 export class MaterialModule {}
