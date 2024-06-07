@@ -1,0 +1,19 @@
+<p>saved-cards-dialogue works!</p>
+<div class="saved-cards-dialog-container">
+  <h2 mat-dialog-title>Select a Saved Card</h2>
+  <div mat-dialog-content>
+    <div *ngFor="let card of data.savedCards$ | async">
+      <!--    <button mat-button >-->
+      <!--      {{ card.number }} ({{ card.expiration }})-->
+      <!--    </button">-->
+      <button class="card-button" (click)="selectCard(card)">
+        <p class="card-number">{{ card.cardType }} **** **** **** {{ card.card_number.slice(-4) }}</p>
+        <p class="expiration-date">{{ card.expiration }}</p>
+      </button>
+
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+  </div>
+</div>
