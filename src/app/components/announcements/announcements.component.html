@@ -1,11 +1,56 @@
 <p>announcements works!</p>
 
 <div class="announcement-container">
-    <h2>Announcements</h2>
+  <h2>Announcements</h2>
 
-    <!--only for employees-->
-    <button mat-raised-button color="primary" type="submit">Post Announcement</button>
+  <!--only for employees-->
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Post a new announcement</mat-panel-title>
+      </mat-expansion-panel-header>
 
+      <form [formGroup]="announcementForm" (ngSubmit)="onSubmit()">
+        <div class="announcement-form-title">
+          <mat-form-field class="title" appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title">
+            <mat-error *ngIf="announcementForm.controls['title'].invalid">Title is required</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="area" appearance="outline">
+            <mat-label>Area Affected</mat-label>
+            <mat-select formControlName="areaAffected">
+              <mat-option *ngFor="let area of areas" [value]="area">{{ area }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="announcementForm.controls['areaAffected'].invalid">At least one area must be selected
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="announcement-form-content">
+          <mat-form-field appearance="outline">
+            <mat-label>Content</mat-label>
+            <textarea matInput formControlName="content"></textarea>
+            <mat-error *ngIf="announcementForm.controls['content'].invalid">Content is required</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+        </div>
+
+        <button
+          class="submit"
+          mat-raised-button
+          type="submit"
+          color="primary"
+          [disabled]="announcementForm.invalid"
+        >
+          Post
+        </button>
+      </form>
+    </mat-expansion-panel>
+  </mat-accordion>
 
   <div class="announcement-list">
     <mat-card *ngFor="let announcement of (announcements$ | async)" class="announcement-card">
@@ -15,7 +60,7 @@
         <mat-card-subtitle>Area Affected: {{ announcement.areaAffected }}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <p *ngIf="!isExpanded(announcement.id || 1)">{{ announcement.content | truncate:300 }}<span >...</span></p>
+        <p *ngIf="!isExpanded(announcement.id || 1)">{{ announcement.content | truncate:300 }}<span>...</span></p>
         <p *ngIf="isExpanded(announcement.id || 1)">{{ announcement.content }}</p>
         <button mat-button color="primary" (click)="toggleExpanded(announcement.id || 1)">
           {{ isExpanded(announcement.id || 1) ? 'See Less' : 'See More' }}

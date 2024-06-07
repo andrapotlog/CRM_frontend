@@ -1,36 +1,67 @@
-import {Component, OnInit} from '@angular/core';
-import {AnnouncementService} from "../../service/announcement-service/announcement.service";
-import {Observable,} from "rxjs";
-import {Announcement} from "../../service/announcement-service/announcement.model";
-import {loadAnnouncements} from "../../service/announcement-service/announcement.actions";
-import {selectAnnouncements} from "../../service/announcement-service/announcement.reducer";
-import {Store} from "@ngrx/store";
+import { Component, OnInit } from '@angular/core';
+import { AnnouncementService } from '../../service/announcement-service/announcement.service';
+import { Observable } from 'rxjs';
+import { Announcement } from '../../service/announcement-service/announcement.model';
+import {
+  createAnnouncement,
+  loadAnnouncements,
+} from '../../service/announcement-service/announcement.actions';
+import { selectAnnouncements } from '../../service/announcement-service/announcement.reducer';
+import { Store } from '@ngrx/store';
+import { selectCurrentUserLocation } from '../../service/user-service/user.reducer';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-announcements',
   templateUrl: './announcements.component.html',
-  styleUrls: ['./announcements.component.css']
+  styleUrls: ['./announcements.component.css'],
 })
-export class AnnouncementsComponent implements OnInit{
-  announcements$: Observable<Announcement[]> = this.store.select(selectAnnouncements);
+export class AnnouncementsComponent implements OnInit {
+  announcements$: Observable<Announcement[]> =
+    this.store.select(selectAnnouncements);
+  userLocation$ = this.store.select(selectCurrentUserLocation);
+  userLocation: string = '';
   expandedIds: Set<number> = new Set();
 
   //post announcement for admin/employee role
-  //email notif when announcement posted
+  announcementForm: FormGroup;
+  //email notif when announcement posted v
   //maybe a crawler to gather some more announcement from sites like stb etc
 
-  constructor(private announcementService: AnnouncementService, private store: Store) {
-    /*this.announcementForm = this.fb.group({
+  areas: string[] = [
+    'General',
+    'Bucuresti - Sector 1',
+    'Bucuresti - Sector 2',
+    'Bucuresti - Sector 3',
+    'Bucuresti - Sector 4',
+    'Bucuresti - Sector 5',
+    'Bucuresti - Sector 6',
+  ];
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  selectedAreas: string[] = [];
+
+  constructor(
+    private announcementService: AnnouncementService,
+    private store: Store,
+    private fb: FormBuilder,
+  ) {
+    this.announcementForm = this.fb.group({
       title: ['', Validators.required],
-      content: ['', Validators.required]
-    });*/
-    this.store.dispatch(loadAnnouncements());
+      content: ['', Validators.required],
+      areaAffected: ['General', Validators.required],
+    });
+    this.userLocation$.subscribe((location) => {
+      if (location)
+        this.store.dispatch(loadAnnouncements({ payload: location || '' }));
+      this.userLocation = location || '';
+    });
   }
 
   ngOnInit(): void {
     //this.announcements$ = this.announcementService.getAnnouncements();
 
-    this.announcements$.subscribe(res => console.log(res))
+    this.announcements$.subscribe((res) => console.log(res));
   }
 
   /*toggleContent(announcement: Announcement): void {
@@ -52,5 +83,17 @@ export class AnnouncementsComponent implements OnInit{
 
   needsExpansion(content: string): boolean {
     return content.length > 300;
+  }
+
+  onSubmit() {
+    if (this.announcementForm.valid) {
+      console.log(this.announcementForm.value);
+      this.store.dispatch(
+        createAnnouncement({
+          payload: this.announcementForm.value,
+          userLocation: this.userLocation,
+        }),
+      );
+    }
   }
 }

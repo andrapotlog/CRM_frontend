@@ -1,10 +1,6 @@
-import {
-  createFeature,
-  createReducer,
-  on,
-} from '@ngrx/store';
+import { createFeature, createReducer, on } from '@ngrx/store';
 import { Nullable } from '../../../global.module';
-import {Announcement} from "./announcement.model";
+import { Announcement } from './announcement.model';
 import { ErrorModel } from '../error.interface';
 
 import * as AnnouncementActions from './announcement.actions';
@@ -21,37 +17,42 @@ export const initialState: State = {
   loading: false,
 };
 
-export const announcementReducer  = createReducer(
+export const announcementReducer = createReducer(
   initialState,
 
-  on(AnnouncementActions.loadAnnouncements, (state) => ({...state, loading: true})),
+  on(AnnouncementActions.loadAnnouncements, (state) => ({
+    ...state,
+    loading: true,
+  })),
 
   on(AnnouncementActions.loadAnnouncementsSuccess, (state, { payload }) => ({
     ...state,
     announcements: payload,
-    loading: false
+    loading: false,
     //error: null
   })),
 
   on(AnnouncementActions.loadAnnouncementsFailure, (state, { error }) => ({
     ...state,
     error,
-    loading: false
+    loading: false,
   })),
 
-  on(AnnouncementActions.createAnnouncement, (state, { payload }) => ({...state, loading: true})),
-
-  on(AnnouncementActions.createAnnouncementSuccess, (state, { payload }) => ({
+  on(AnnouncementActions.createAnnouncement, (state, { payload }) => ({
     ...state,
-    announcements: [payload, ...state.announcements],
-    loading: false
+    loading: true,
+  })),
+
+  on(AnnouncementActions.createAnnouncementSuccess, (state) => ({
+    ...state,
+    loading: false,
     //error: null
   })),
   on(AnnouncementActions.createAnnouncementFailure, (state, { error }) => ({
     ...state,
     error,
-    loading: false
-  }))
+    loading: false,
+  })),
 );
 
 export const announcementFeature = createFeature({
