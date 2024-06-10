@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -16,24 +16,18 @@ import { templateFeature } from './payments/template-service/template.reducer';
 import { cardFeature } from './payments/cards-service/card.reducer';
 import { paymentFeature } from './payments/payment-service/payment.reducer';
 
-@NgModule({
-  declarations: [],
-  imports: [
-    HttpClientModule,
-    StoreModule.forFeature(userFeature),
-    StoreModule.forFeature(announcementFeature),
-    StoreModule.forFeature(requestFeature),
-    StoreModule.forFeature(templateFeature),
-    StoreModule.forFeature(cardFeature),
-    StoreModule.forFeature(paymentFeature),
-    EffectsModule.forFeature([
-      UserEffects,
-      AnnouncementEffects,
-      RequestEffects,
-      TemplateEffects,
-      CardEffects,
-      PaymentEffects,
-    ]),
-  ],
-})
+@NgModule({ declarations: [], imports: [StoreModule.forFeature(userFeature),
+        StoreModule.forFeature(announcementFeature),
+        StoreModule.forFeature(requestFeature),
+        StoreModule.forFeature(templateFeature),
+        StoreModule.forFeature(cardFeature),
+        StoreModule.forFeature(paymentFeature),
+        EffectsModule.forFeature([
+            UserEffects,
+            AnnouncementEffects,
+            RequestEffects,
+            TemplateEffects,
+            CardEffects,
+            PaymentEffects,
+        ])], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class CrmStoreModule {}
