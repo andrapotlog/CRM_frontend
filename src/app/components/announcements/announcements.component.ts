@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import { selectCurrentUserLocation } from '../../service/user-service/user.reducer';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { SharedService } from '../../service/shared-service/shared.service';
 
 @Component({
   selector: 'app-announcements',
@@ -21,7 +22,7 @@ export class AnnouncementsComponent implements OnInit {
   announcements$: Observable<Announcement[]> =
     this.store.select(selectAnnouncements);
   userLocation$ = this.store.select(selectCurrentUserLocation);
-  userLocation: string = '';
+  userLocation: number = 0;
   expandedIds: Set<number> = new Set();
 
   //post announcement for admin/employee role
@@ -43,6 +44,7 @@ export class AnnouncementsComponent implements OnInit {
 
   constructor(
     private announcementService: AnnouncementService,
+    public sharedService: SharedService,
     private store: Store,
     private fb: FormBuilder,
   ) {
@@ -53,8 +55,8 @@ export class AnnouncementsComponent implements OnInit {
     });
     this.userLocation$.subscribe((location) => {
       if (location)
-        this.store.dispatch(loadAnnouncements({ payload: location || '' }));
-      this.userLocation = location || '';
+        this.store.dispatch(loadAnnouncements({ payload: location }));
+      this.userLocation = location || 0;
     });
   }
 

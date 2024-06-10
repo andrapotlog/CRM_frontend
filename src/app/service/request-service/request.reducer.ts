@@ -1,8 +1,8 @@
-import {createFeature, createReducer, on} from '@ngrx/store';
+import { createFeature, createReducer, on } from '@ngrx/store';
 import * as ServiceRequestActions from './request.actions';
-import {Nullable} from "../../../global.module";
-import {ErrorModel} from "../error.interface";
-import {ServiceRequestModel} from "./request.model";
+import { Nullable } from '../../../global.module';
+import { ErrorModel } from '../error.interface';
+import { ServiceRequestModel } from './request.model';
 
 export interface State {
   serviceRequests: ServiceRequestModel[];
@@ -15,75 +15,90 @@ export const initialState: State = {
   serviceRequests: [],
   selectedServiceRequest: null,
   loading: false,
-  error: null
+  error: null,
 };
 
 export const requestReducer = createReducer(
   initialState,
 
-  on(ServiceRequestActions.loadServiceRequests, state => ({...state, loading: true})),
-
-  on(ServiceRequestActions.loadServiceRequestsSuccess, (state, { payload }) => ({
+  on(ServiceRequestActions.loadServiceRequests, (state) => ({
     ...state,
-    serviceRequests: payload,
-    loading: false,
+    loading: true,
   })),
+
+  on(
+    ServiceRequestActions.loadServiceRequestsSuccess,
+    (state, { payload }) => ({
+      ...state,
+      serviceRequests: payload,
+      loading: false,
+    }),
+  ),
 
   on(ServiceRequestActions.loadServiceRequestsFailure, (state, { error }) => ({
     ...state,
     loading: false,
-    error
+    error,
   })),
 
-  on(ServiceRequestActions.filterServiceRequests, state => ({
+  on(ServiceRequestActions.filterServiceRequests, (state) => ({
     ...state,
     loading: true,
-    error: null
+    error: null,
   })),
 
-  on(ServiceRequestActions.createServiceRequest, state => ({...state, loading: true,})),
-
-  on(ServiceRequestActions.createServiceRequestSuccess, (state, { payload }) => ({
+  on(ServiceRequestActions.createServiceRequest, (state) => ({
     ...state,
-    serviceRequests: [...state.serviceRequests, payload],
-    loading: false,
+    loading: true,
   })),
+
+  on(
+    ServiceRequestActions.createServiceRequestSuccess,
+    (state, { payload }) => ({
+      ...state,
+      serviceRequests: [...state.serviceRequests, payload],
+      loading: false,
+    }),
+  ),
 
   on(ServiceRequestActions.createServiceRequestFailure, (state, { error }) => ({
     ...state,
     loading: false,
-    error
+    error,
   })),
 
-  on(ServiceRequestActions.updateServiceRequest, state => ({...state, loading: true,})),
-
-  on(ServiceRequestActions.updateServiceRequestSuccess, (state, { payload }) => ({
+  on(ServiceRequestActions.updateServiceRequest, (state) => ({
     ...state,
-    serviceRequests: state.serviceRequests.map(sr =>
-      sr.id === payload.id ? payload : sr
-    ),
+    loading: true,
+  })),
+
+  on(ServiceRequestActions.updateServiceRequestSuccess, (state) => ({
+    ...state,
     loading: false,
   })),
 
   on(ServiceRequestActions.updateServiceRequestFailure, (state, { error }) => ({
     ...state,
     loading: false,
-    error
+    error,
   })),
 
-  on(ServiceRequestActions.deleteServiceRequest, state => ({...state,loading: true,})),
+  on(ServiceRequestActions.deleteServiceRequest, (state) => ({
+    ...state,
+    loading: true,
+  })),
 
   on(ServiceRequestActions.deleteServiceRequestSuccess, (state, { id }) => ({
     ...state,
-    serviceRequests: state.serviceRequests.filter(sr => sr.id !== id),
+    serviceRequests: state.serviceRequests.filter((sr) => sr.id !== id),
     loading: false,
   })),
 
   on(ServiceRequestActions.deleteServiceRequestFailure, (state, { error }) => ({
     ...state,
     loading: false,
-    error
-  }))
+    error,
+  })),
 );
 
 export const requestFeature = createFeature({

@@ -11,6 +11,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   imports: [
@@ -26,6 +29,9 @@ import { MatChipsModule } from '@angular/material/chips';
     MatExpansionModule,
     MatDialogModule,
     MatChipsModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatSlideToggleModule,
   ],
   exports: [
     MatButtonModule,
@@ -40,6 +46,9 @@ import { MatChipsModule } from '@angular/material/chips';
     MatExpansionModule,
     MatDialogModule,
     MatChipsModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatSlideToggleModule,
   ],
 })
 export class MaterialModule {}

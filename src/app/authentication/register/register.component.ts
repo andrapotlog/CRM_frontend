@@ -19,6 +19,7 @@ import {
   selectError,
   selectUsers,
 } from '../../service/user-service/user.reducer';
+import { SharedService } from '../../service/shared-service/shared.service';
 
 interface CountryCode {
   code: number;
@@ -55,6 +56,7 @@ export class RegisterComponent implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private store: Store,
+    public sharedService: SharedService,
   ) {
     const currentDate = new Date();
     this.maxDate = new Date(
@@ -115,11 +117,13 @@ export class RegisterComponent implements OnInit {
 
       address: new FormControl('', [Validators.required]),
       city: new FormControl('', [Validators.required]),
-      country: new FormControl('', [Validators.required]),
+      //country: new FormControl('', [Validators.required]),
       postalCode: new FormControl('', [
         Validators.required,
         Validators.pattern(/^\d{6}$/),
       ]),
+      agreeToProcessData: [false, Validators.requiredTrue],
+      agreeToReceiveUpdates: [false],
     });
   }
 
@@ -144,10 +148,7 @@ export class RegisterComponent implements OnInit {
     );
 
     this.authService
-      .registerUserCredentials({
-        email: this.credentialsForm.controls['email'].value,
-        password: this.credentialsForm.controls['password'].value,
-      })
+      .registerUserCredentials(this.credentialsForm.controls['email'].value)
       .subscribe(
         (res) => {
           this.credentialsPage = false;
@@ -184,20 +185,32 @@ export class RegisterComponent implements OnInit {
         },
       );*/
 
-    const payload: UserModel.UserModel = {
-      firstName: this.credentialsForm.controls['firstName'].value,
-      lastName: this.credentialsForm.controls['lastName'].value,
-      email: this.credentialsForm.controls['email'].value,
-      clientCode: this.credentialsForm.controls['clientCode'].value,
-      cnp: this.personalDataForm.controls['cnp'].value,
-      phoneNumber:
-        this.personalDataForm.controls['countryCode'].value +
-        this.personalDataForm.controls['phoneNumber'].value,
-      address: this.personalDataForm.controls['address'].value,
-      city: this.personalDataForm.controls['city'].value,
-      country: this.personalDataForm.controls['country'].value,
-      postalCode: this.personalDataForm.controls['postalCode'].value,
+    const payload: UserModel.RegistrationData = {
+      userCredentials: {
+        email: this.credentialsForm.controls['email'].value,
+        password: this.credentialsForm.controls['password'].value,
+      },
+      userData: {
+        firstName: this.credentialsForm.controls['firstName'].value,
+        lastName: this.credentialsForm.controls['lastName'].value,
+        email: this.credentialsForm.controls['email'].value,
+        clientCode: this.credentialsForm.controls['clientCode'].value,
+        cnp: this.personalDataForm.controls['cnp'].value,
+        phoneNumber:
+          this.personalDataForm.controls['countryCode'].value +
+          this.personalDataForm.controls['phoneNumber'].value,
+        address: this.personalDataForm.controls['address'].value,
+        city: this.personalDataForm.controls['city'].value,
+        //country: this.personalDataForm.controls['country'].value,
+        sendEmail:
+          this.personalDataForm.controls['agreeToReceiveUpdates'].value,
+        termsAndConditions:
+          this.personalDataForm.controls['agreeToProcessData'].value,
+        postalCode: this.personalDataForm.controls['postalCode'].value,
+      },
     };
+
+    console.log(payload);
     this.store.dispatch(createUser({ payload }));
   }
 

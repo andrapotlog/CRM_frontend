@@ -76,9 +76,9 @@ export class AnnouncementEffects {
     private announcementService: AnnouncementService,
   ) {}
 
-  loadAll(payload: string): Observable<Announcement[]> {
+  loadAll(payload: number): Observable<Announcement[]> {
     const req = this.announcementService.getAnnouncements(payload);
-    return this.announcementService.getAnnouncements(payload); /*.pipe(
+    return req; /*.pipe(
       map(result => AnnouncementMapper.mapAnnouncements(result))
     ).subscribe(res=> console.log(res));
 

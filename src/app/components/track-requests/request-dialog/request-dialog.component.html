@@ -1,0 +1,85 @@
+<h2 mat-dialog-title>{{ data.edit ? editModeTitle : viewModeTitle }}</h2>
+<mat-dialog-content>
+  <form *ngIf="data.edit; else viewOnly" class="edit-request-form" [formGroup]="requestForm">
+    <div class="edit-request-form-readonly-data">
+      <p><strong>ID of request:</strong> {{ data.request.id }}</p>
+      <p *ngIf="data.request.creationDate"><strong>Creation
+        date:</strong> {{ data.request.creationDate | date:"d MMMM y HH:mm" }}
+      </p>
+      <p *ngIf="data.request.updateDate"><strong>Last update
+        date:</strong> {{ data.request.updateDate | date:"d MMMM y HH:mm" }}
+      </p>
+      <p *ngIf="data.request.updateDate"><strong>Description:</strong> {{ data.request.description }}
+      </p>
+    </div>
+
+    <div class="edit-request-form-type">
+      <mat-form-field appearance="outline">
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="type">
+          <mat-option *ngFor="let type of sharedService.getRequestTypes" [value]="type.value">{{ type.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="edit-request-form-priority-status">
+      <mat-form-field appearance="outline">
+        <mat-label>Priority</mat-label>
+        <mat-select formControlName="priority">
+          <mat-option *ngFor="let priority of priorities" [value]="priority.toUpperCase()">{{ priority }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let status of statuses" [value]="status.toUpperCase()">{{ status }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+
+    <div class="edit-request-form-priority-status">
+      <mat-form-field appearance="outline">
+        <mat-label>Location</mat-label>
+        <mat-select formControlName="location">
+          <mat-option *ngFor="let area of sharedService.getAreas" [value]="area.value">{{ area.label }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Adress</mat-label>
+        <input matInput formControlName="address">
+      </mat-form-field>
+    </div>
+
+    <div class="edit-request-form-obs">
+      <mat-form-field appearance="outline">
+        <mat-label>Observations</mat-label>
+        <textarea matInput formControlName="observations"></textarea>
+      </mat-form-field>
+    </div>
+  </form>
+
+  <ng-template #viewOnly>
+    <p><strong>ID:</strong> {{ data.request.id }}</p>
+    <p><strong>Type:</strong> {{ sharedService.getTypeLabel(data.request.type) }}</p>
+    <p><strong>Priority:</strong> {{ data.request.priority | priorityTransform }}</p>
+    <p *ngIf="data.request.status"><strong>Status:</strong> {{ data.request.status | statusTransform }}</p>
+    <p><strong>Location:</strong> {{ sharedService.getAreaLabel(data.request.location) }}</p>
+    <p *ngIf="data.request.address"><strong>Address:</strong> {{ data.request.address | statusTransform }}</p>
+    <p *ngIf="data.request.creationDate"><strong>Creation
+      Date:</strong> {{ data.request.creationDate | date:"d MMMM y HH:mm" }}
+    </p>
+    <p *ngIf="data.request.updateDate"><strong>Update
+      Date:</strong> {{ data.request.updateDate | date:"d MMMM y HH:mm" }}
+    </p>
+    <p *ngIf="data.request.observations"><strong>Observations:</strong> {{ data.request.observations }}</p>
+  </ng-template>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button *ngIf="data.edit" color="primary" [disabled]="requestForm.invalid" (click)="save()">Save
+  </button>
+  <button mat-raised-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

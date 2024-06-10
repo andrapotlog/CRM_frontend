@@ -4,7 +4,7 @@ import { Announcement } from './announcement.model';
 
 export const loadAnnouncements = createAction(
   '[Announcement] Load Announcements',
-  props<{ payload: string }>(),
+  props<{ payload: number }>(),
 );
 
 export const loadAnnouncementsSuccess = createAction(
@@ -19,7 +19,7 @@ export const loadAnnouncementsFailure = createAction(
 
 export const createAnnouncement = createAction(
   '[Announcement] Create Announcement',
-  props<{ payload: Announcement; userLocation: string }>(),
+  props<{ payload: Announcement; userLocation: number }>(),
 );
 
 export const createAnnouncementSuccess = createAction(

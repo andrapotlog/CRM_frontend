@@ -1,0 +1,45 @@
+mat-dialog-content {
+  height: 100%;
+}
+
+mat-dialog-actions {
+
+}
+
+mat-form-field {
+  margin-right: 10px;
+}
+
+.edit-request-form {
+
+  .edit-request-form-readonly-data {
+    margin-bottom: 20px;
+  }
+
+  .edit-request-form-type {
+    mat-form-field {
+      width: 80%;
+    }
+  }
+
+  .edit-request-form-priority-status {
+    mat-form-field {
+      width: 35%;
+    }
+  }
+
+  .edit-request-form-obs {
+    mat-form-field {
+      width: 71.5%;
+    }
+
+    textarea {
+      height: 170px;
+    }
+
+  }
+}
+
+button {
+  margin: 10px
+}

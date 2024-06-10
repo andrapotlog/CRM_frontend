@@ -24,7 +24,7 @@
 }
 
 .register-body-field-code {
-  width:9rem;
+  width: 9rem;
   margin-right: 1rem;
 }
 
@@ -35,4 +35,8 @@
 .register-body-form-error {
   color: #f44336;
   margin-bottom: 0.5rem;
+}
+
+.register-body-field-checkbox {
+
 }

@@ -17,6 +17,8 @@ import { NgxMaskDirective } from 'ngx-mask';
 import { SavedCardsDialogComponent } from './payments/saved-cards/saved-cards-dialogue.component';
 import { NgOptimizedImage } from '@angular/common';
 import { SavePaymentDialogComponent } from './payments/save-template/save-payment-dialog.component';
+import { CdkDropList } from '@angular/cdk/drag-drop';
+import { RequestDialogComponent } from './track-requests/request-dialog/request-dialog.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { SavePaymentDialogComponent } from './payments/save-template/save-paymen
     PaymentsComponent,
     SavedCardsDialogComponent,
     SavePaymentDialogComponent,
+    RequestDialogComponent,
   ],
   imports: [
     SharedModule,
@@ -40,6 +43,7 @@ import { SavePaymentDialogComponent } from './payments/save-template/save-paymen
     MatButtonToggleModule,
     NgxMaskDirective,
     NgOptimizedImage,
+    CdkDropList,
   ],
   exports: [],
 })

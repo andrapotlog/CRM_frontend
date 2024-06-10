@@ -28,9 +28,8 @@ export class AnnouncementService {
 
   constructor(private http: HttpClient) {}
 
-  getAnnouncements(location: string): Observable<Announcement[]> {
+  getAnnouncements(location: number): Observable<Announcement[]> {
     //return of(this.announcements);
-    console.log(location);
     const token = JSON.parse(localStorage.getItem('token')!);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     let params = new HttpParams();
@@ -38,6 +37,8 @@ export class AnnouncementService {
     if (location) {
       params = params.set('location', location);
     }
+
+    console.log(params);
 
     return this.http.get<Announcement[]>(this.apiUrl, { headers, params });
   }

@@ -5,7 +5,7 @@ export interface Announcement {
   creationDate?: string;
   status?: AnnouncementStatusEnum;
   authorId?: number;
-  areaAffected?: string;
+  areaAffected: number;
   category?: string;
 }
 
@@ -13,5 +13,5 @@ export enum AnnouncementStatusEnum {
   active = 'active',
   inactive = 'inactive',
   done = 'done',
-  undefined = 'undefined'
+  undefined = 'undefined',
 }

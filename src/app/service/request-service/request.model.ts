@@ -2,25 +2,26 @@ export enum PriorityEnum {
   critical = 'Critical',
   high = 'High',
   medium = 'Medium',
-  low = 'Low'
+  low = 'Low',
 }
 
 export enum RequestStatusEnum {
   pending = 'Pending',
   inProgress = 'In Progress',
   completed = 'Completed',
-  rejected = 'Rejected'
+  rejected = 'Rejected',
 }
 
 export interface ServiceRequestModel {
   id?: number;
-  type: string;
+  type: number;
   description: string;
-  location: string;
+  location: number;
+  address: string;
   priority: PriorityEnum;
   status?: RequestStatusEnum;
-  date?: string;
-  created_by_user: number;
-  city: string;
-  street: string;
+  creationDate?: string;
+  updateDate?: string;
+  observations: string;
+  createdByUser?: number;
 }

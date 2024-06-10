@@ -31,8 +31,8 @@ export class AuthService {
     }
   }
 
-  registerUserCredentials(userCredentials: fromModel.UserCredentials) {
-    return this.http.post(this.test_url + 'register', userCredentials);
+  registerUserCredentials(email: string) {
+    return this.http.post(this.test_url + 'register', email);
   }
 
   authenticateUser(userCredentials: fromModel.UserCredentials) {

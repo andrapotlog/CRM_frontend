@@ -6,7 +6,7 @@
     <mat-form-field class="form-container-field" appearance="outline">
       <mat-label>Request Type</mat-label>
       <mat-select formControlName="type">
-          <mat-option *ngFor="let type of requestTypes" [value]="type.label">{{ type.label }}</mat-option>
+        <mat-option *ngFor="let type of requestTypes" [value]="type.value">{{ type.label }}</mat-option>
       </mat-select>
       <mat-error *ngIf="serviceRequestForm.get('type')?.hasError('required')">Request type is required.</mat-error>
     </mat-form-field>
@@ -14,14 +14,26 @@
     <mat-form-field class="form-container-field" appearance="outline">
       <mat-label>Description</mat-label>
       <textarea matInput formControlName="description"></textarea>
-      <mat-error *ngIf="serviceRequestForm.get('description')?.hasError('required')">Description is required.</mat-error>
-      <mat-error *ngIf="serviceRequestForm.get('description')?.hasError('minlength')">Description must be at least 10 characters long.</mat-error>
+      <mat-error *ngIf="serviceRequestForm.get('description')?.hasError('required')">Description is required.
+      </mat-error>
+      <mat-error *ngIf="serviceRequestForm.get('description')?.hasError('minlength')">Description must be at least 10
+        characters long.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field class="form-container-field" appearance="outline">
       <mat-label>Location</mat-label>
-      <input matInput formControlName="location">
-      <mat-error *ngIf="serviceRequestForm.get('location')?.hasError('required')">
+      <mat-select formControlName="location">
+        <mat-option *ngFor="let area of areas" [value]="area.value">{{ area.label }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="serviceRequestForm.controls['location'].invalid">At least one area must be selected
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-container-field" appearance="outline">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="address">
+      <mat-error *ngIf="serviceRequestForm.get('address')?.hasError('required')">
         Location is required.
       </mat-error>
     </mat-form-field>
@@ -34,11 +46,6 @@
       <mat-error *ngIf="serviceRequestForm.get('priority')?.hasError('required')">
         Priority level is required.
       </mat-error>
-    </mat-form-field>
-
-    <mat-form-field class="form-container-field" appearance="outline">
-      <mat-label>Upload relevant documents</mat-label>
-      <input matInput formControlName="documents">
     </mat-form-field>
 
     <div class="button-container">

@@ -8,7 +8,8 @@ import * as UserActions from './user.actions';
 export interface State {
   users: UserModel[];
   currentUser: Nullable<UserModel>;
-  currentUserLocation: Nullable<string>;
+  currentUserLocation: Nullable<number>;
+  currentUserRole: Nullable<string>;
   error: Nullable<ErrorModel>;
   loading: boolean;
 }
@@ -17,6 +18,7 @@ export const initialState: State = {
   users: [],
   currentUser: null,
   currentUserLocation: null,
+  currentUserRole: null,
   error: null,
   loading: false,
 };
@@ -62,6 +64,7 @@ export const userReducer = createReducer(
     ...state,
     currentUser: payload,
     currentUserLocation: payload.city,
+    currentUserRole: payload.roles ? payload.roles[0].roleName : null,
     loading: false,
   })),
 
@@ -100,6 +103,7 @@ export const {
   selectUsers,
   selectCurrentUser,
   selectCurrentUserLocation,
+  selectCurrentUserRole,
   selectError,
   selectLoading,
 } = userFeature;

@@ -20,6 +20,7 @@ import { Observable } from 'rxjs';
 import { UserModel } from '../../../service/user-service/user.model';
 import { Nullable } from '../../../../global.module';
 import { ErrorModel } from '../../../service/error.interface';
+import { SharedService } from '../../../service/shared-service/shared.service';
 
 @Component({
   selector: 'app-profile',
@@ -33,11 +34,13 @@ export class ProfileComponent implements OnInit {
   error$: Observable<Nullable<ErrorModel>> = this.store.select(selectError);
 
   userDataForm: FormGroup;
+  cityLabel: string = '';
 
   viewOnly: boolean = true;
 
   constructor(
     private userService: UserService,
+    public sharedService: SharedService,
     private store: Store,
     private formBuilder: FormBuilder,
   ) {
@@ -79,8 +82,7 @@ export class ProfileComponent implements OnInit {
       ]),
 
       address: new FormControl('', [Validators.required]),
-      city: new FormControl('', [Validators.required]),
-      country: new FormControl('', [Validators.required]),
+      city: new FormControl(0, [Validators.required]),
       postalCode: new FormControl('', [
         Validators.required,
         Validators.pattern(/^\d{6}$/),
@@ -124,6 +126,9 @@ export class ProfileComponent implements OnInit {
       //console.log(user?.id_user);
       localStorage.setItem('userId', JSON.stringify(user?.id_user));
       if (user) this.userDataForm.patchValue(user);
+      this.cityLabel = this.sharedService.getAreaLabel(
+        this.userDataForm.get('city')?.value,
+      );
     });
   }
 
@@ -135,6 +140,9 @@ export class ProfileComponent implements OnInit {
       };
       this.store.dispatch(updateUser({ payload: updatedUser }));
     }
+    this.cityLabel = this.sharedService.getAreaLabel(
+      this.userDataForm.get('city')?.value,
+    );
     this.viewOnly = true;
   }
 

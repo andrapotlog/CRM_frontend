@@ -4,9 +4,10 @@ import { Store } from '@ngrx/store';
 import { UserService } from './user.service';
 
 import * as UserActions from './user.actions';
-import { catchError, Observable, switchMap } from 'rxjs';
-import { UserModel } from './user.model';
+import { catchError, Observable, switchMap, tap } from 'rxjs';
+import { RegistrationData, UserModel } from './user.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class UserEffects {
@@ -48,6 +49,17 @@ export class UserEffects {
         ),
       ),
     ),
+  );
+
+  createUserSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(UserActions.createUserSuccess),
+        tap(() => {
+          this.router.navigateByUrl('/login');
+        }),
+      ),
+    { dispatch: false },
   );
 
   loadUser$ = createEffect(() =>
@@ -98,13 +110,14 @@ export class UserEffects {
     private actions$: Actions,
     private store: Store,
     private userService: UserService,
+    private router: Router,
   ) {}
 
   loadAll(): Observable<UserModel[]> {
     return this.userService.getUsers();
   }
 
-  createUser(payload: UserModel) {
+  createUser(payload: RegistrationData) {
     return this.userService.registerUserData(payload);
   }
 

@@ -4,7 +4,7 @@
   <h2>Announcements</h2>
 
   <!--only for employees-->
-  <mat-accordion>
+  <mat-accordion *ngIf="sharedService.isEmployee || sharedService.isAdmin">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>Post a new announcement</mat-panel-title>
@@ -21,7 +21,7 @@
           <mat-form-field class="area" appearance="outline">
             <mat-label>Area Affected</mat-label>
             <mat-select formControlName="areaAffected">
-              <mat-option *ngFor="let area of areas" [value]="area">{{ area }}</mat-option>
+              <mat-option *ngFor="let area of sharedService.getAreas" [value]="area.value">{{ area.label }}</mat-option>
             </mat-select>
             <mat-error *ngIf="announcementForm.controls['areaAffected'].invalid">At least one area must be selected
             </mat-error>
@@ -40,7 +40,7 @@
         </div>
 
         <button
-          class="submit"
+          class="announcement-form-submit"
           mat-raised-button
           type="submit"
           color="primary"
@@ -56,8 +56,9 @@
     <mat-card *ngFor="let announcement of (announcements$ | async)" class="announcement-card">
       <mat-card-header>
         <mat-card-title>{{ announcement.title }}</mat-card-title>
-        <mat-card-subtitle>{{ announcement.creationDate | date:'short' }}</mat-card-subtitle>
-        <mat-card-subtitle>Area Affected: {{ announcement.areaAffected }}</mat-card-subtitle>
+        <mat-card-subtitle>{{ announcement.creationDate | date:"d MMMM y HH:mm" }}</mat-card-subtitle>
+        <mat-card-subtitle>Area Affected: {{ sharedService.getAreaLabel(announcement.areaAffected) }}
+        </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <p *ngIf="!isExpanded(announcement.id || 1)">{{ announcement.content | truncate:300 }}<span>...</span></p>

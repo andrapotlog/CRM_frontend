@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { UserModel } from './user.model';
+import { RegistrationData, UserModel } from './user.model';
 import { ErrorModel } from '../error.interface';
 
 export const loadUsers = createAction('[USER] Load Users');
@@ -16,7 +16,7 @@ export const loadUsersFailure = createAction(
 
 export const createUser = createAction(
   '[USER] Create User',
-  props<{ payload: UserModel }>(),
+  props<{ payload: RegistrationData }>(),
 );
 
 export const createUserSuccess = createAction('[USER] Create User Success');

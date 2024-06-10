@@ -12,7 +12,7 @@
         <div class="register-body-field-container">
           <mat-form-field class="register-body-field" appearance="outline">
             <mat-label>First Name</mat-label>
-            <input matInput formControlName="firstName" required type="text" />
+            <input matInput formControlName="firstName" required type="text"/>
             <mat-error
               *ngIf="credentialsForm.controls['firstName'].hasError('pattern')"
             >
@@ -24,7 +24,7 @@
         <div class="register-body-field-container">
           <mat-form-field class="register-body-field" appearance="outline">
             <mat-label>Last Name</mat-label>
-            <input matInput formControlName="lastName" required type="text" />
+            <input matInput formControlName="lastName" required type="text"/>
             <mat-error
               *ngIf="credentialsForm.controls['lastName'].hasError('pattern')"
             >
@@ -36,7 +36,7 @@
         <div class="register-body-field-container">
           <mat-form-field class="register-body-field" appearance="outline">
             <mat-label>Email</mat-label>
-            <input matInput formControlName="email" required type="email" />
+            <input matInput formControlName="email" required type="email"/>
             <mat-error *ngIf="credentialsForm.controls['email'].hasError('email')">
               Invalid email address
             </mat-error>
@@ -98,7 +98,9 @@
           </mat-form-field>
         </div>
 
-        <div class="register-body-form-error" *ngIf="userCredentialsError">A user with these credentials already exists</div>
+        <div class="register-body-form-error" *ngIf="userCredentialsError">A user with these credentials already
+          exists
+        </div>
 
 
         <button
@@ -113,7 +115,7 @@
       </form>
     </div>
 
-    <div class="register-body-personalData" *ngIf="personalDataPage">
+    <div class="register-body-personalData" *ngIf="true">
       <h3>Please provide your personal information.</h3>
       <form
         class="register-body-form"
@@ -152,7 +154,7 @@
         <div class="register-body-field-container">
           <mat-form-field class="register-body-field" appearance="outline">
             <mat-label>Identity number</mat-label>
-            <input matInput formControlName="cnp" required type="text" />
+            <input matInput formControlName="cnp" required type="text"/>
             <mat-error
               *ngIf="
                 personalDataForm.controls['cnp'].hasError('pattern') ||
@@ -172,7 +174,8 @@
                 class="register-body-field-code-option"
                 *ngFor="let countryCode of countryCodes"
                 [value]="countryCode.code"
-                >+{{ countryCode.code }} ({{ countryCode.region }})</mat-option
+              >+{{ countryCode.code }} ({{ countryCode.region }})
+              </mat-option
               >
             </mat-select>
           </mat-form-field>
@@ -203,23 +206,33 @@
         <div class="register-body-field-container">
           <mat-form-field class="register-body-field" appearance="outline">
             <mat-label>Address</mat-label>
-            <input matInput formControlName="address" required type="text" />
+            <input matInput formControlName="address" required type="text"/>
           </mat-form-field>
         </div>
+        <!--
+                <div class="register-body-field-container">
+                  <mat-form-field class="register-body-field" appearance="outline">
+                    <mat-label>City</mat-label>
+                    <input matInput formControlName="city" required type="text"/>
+                  </mat-form-field>
+                </div>-->
 
         <div class="register-body-field-container">
           <mat-form-field class="register-body-field" appearance="outline">
-            <mat-label>City</mat-label>
-            <input matInput formControlName="city" required type="text" />
+            <mat-label>Location</mat-label>
+            <mat-select formControlName="city">
+              <mat-option *ngFor="let area of sharedService.getAreas" [value]="area.value">{{ area.label }}</mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
-
-        <div class="register-body-field-container">
-          <mat-form-field class="register-body-field" appearance="outline">
-            <mat-label>Country</mat-label>
-            <input matInput formControlName="country" required type="text" />
-          </mat-form-field>
-        </div>
+        <!--
+                <div class="register-body-field-container">
+                  <mat-form-field class="register-body-field" appearance="outline">
+                    <mat-label>Country</mat-label>
+                    <input matInput formControlName="country" required type="text" />
+                  </mat-form-field>
+                </div>
+        -->
 
         <div class="register-body-field-container">
           <mat-form-field class="register-body-field" appearance="outline">
@@ -240,7 +253,19 @@
           </mat-form-field>
         </div>
 
-        <div  class="register-body-form-error" *ngIf="cnpAlreadyExistsError">A user with this identity number already exists</div>
+        <p class="register-body-field-checkbox">
+          <mat-slide-toggle formControlName="agreeToProcessData" color="primary">I agree to Terms and Conditions.
+          </mat-slide-toggle>
+        </p>
+        <p class="register-body-field-checkbox">
+          <mat-slide-toggle formControlName="agreeToReceiveUpdates" color="primary">I want to receive announcements via
+            email
+          </mat-slide-toggle>
+        </p>
+
+        <div class="register-body-form-error" *ngIf="cnpAlreadyExistsError">A user with this identity number already
+          exists
+        </div>
 
         <button
           class="register-body-form-submit"
