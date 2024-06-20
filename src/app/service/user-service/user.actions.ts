@@ -42,7 +42,10 @@ export const updateUser = createAction(
   '[USER] Update User',
   props<{ payload: UserModel }>(),
 );
-export const updateUserSuccess = createAction('[USER] Update User Success');
+export const updateUserSuccess = createAction(
+  '[USER] Update User Success',
+  props<{ payload: UserModel }>(),
+);
 export const updateUserFailure = createAction(
   '[USER] Update User Failure',
   props<{ error: ErrorModel }>(),

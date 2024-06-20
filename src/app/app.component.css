@@ -1,0 +1,6 @@
+
+app-navbar {
+  mat-toolbar {
+    margin-bottom: 2%;
+  }
+}
