@@ -7,12 +7,15 @@ import * as fromModel from '.././user-service/user.model';
 import * as fromReducer from '../../app.reducer';
 import * as Auth from '../auth/auth.actions';
 import { AuthResponseModel } from './auth-response.model';
+import { environment } from '../../../enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  test_url = 'http://localhost:9090/authentication/';
+  // test_url = 'http://localhost:9090/authentication/';
+  // test_url = 'http://localhost/api/authentication/';
+  apiUrl = environment.apiEndpoints.authenticationService;
 
   constructor(
     private http: HttpClient,
@@ -23,8 +26,6 @@ export class AuthService {
   initAuthListener() {
     if (JSON.parse(localStorage.getItem('isAuth')!) === 'yes') {
       this.store.dispatch(new Auth.SetAuth());
-      //this.router.navigateByUrl('/profile');
-      this.router.navigateByUrl('/announcements');
     } else {
       this.store.dispatch(new Auth.SetUnauth());
       this.router.navigateByUrl('/');
@@ -32,12 +33,12 @@ export class AuthService {
   }
 
   registerUserCredentials(email: string) {
-    return this.http.post(this.test_url + 'register', email);
+    return this.http.post(this.apiUrl + '/register', email);
   }
 
   authenticateUser(userCredentials: fromModel.UserCredentials) {
     const request = this.http.post(
-      this.test_url + 'authenticate',
+      this.apiUrl + '/authenticate',
       userCredentials,
     );
     request.subscribe((res) => {
