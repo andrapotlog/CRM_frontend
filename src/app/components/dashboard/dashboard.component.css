@@ -1,6 +1,5 @@
 .dashboard {
   width: 95%;
-  /*display: flex;*/
   flex-direction: column;
   align-items: center;
   margin: auto;
@@ -9,7 +8,6 @@
 .dashboard-line {
   display: inline-flex;
   width: 100%;
-  /*flex: 4;*/
 }
 
 .dashboard-card {
@@ -20,16 +18,46 @@
 .dashboard-bar {
   margin: auto;
   width: 95%;
+
+  mat-card-content {
+    height: 500px;
+
+    canvas {
+      margin: auto;
+      width: 100%;
+    }
+  }
 }
 
-.dashboard-pie{
-  width: 45%;
+.dashboard-pies {
   margin: auto;
+  width: 95%;
+
+  mat-card-content {
+    height: 800px;
+  }
+
+  mat-card-content {
+    height: 500px;
+    margin-bottom: 100px;
+
+    canvas {
+      margin: auto;
+      width: 100%;
+    }
+  }
 }
 
-canvas {
-  width: 100% !important;
-  height: auto !important;
+.dashboard-pie {
+  width: 100%;
+
+}
+
+
+.disabled-shadow {
+  mat-card {
+    box-shadow: none;
+  }
 }
 
 .category-metrics {

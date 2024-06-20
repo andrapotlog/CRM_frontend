@@ -4,7 +4,6 @@
   <button class="btn btn-primary" (click)="downloadPdf()">Download as PDF</button>
 </div>
 
-<!-- src/app/components/dashboard/dashboard.component.html -->
 <div id="dashboard-content" class="dashboard">
   <h2>Dashboard</h2>
 
@@ -14,9 +13,19 @@
         <mat-card-title>Average Response Time</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p>{{ (analyticsData$ | async)?.averageResponseTime }} minutes</p>
+        <p>{{ (analyticsData$ | async)?.averageResponseTime }} hours</p>
       </mat-card-content>
     </mat-card>
+
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>Average Completion Time</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ (analyticsData$ | async)?.averageCompletionTime }} hours</p>
+      </mat-card-content>
+    </mat-card>
+
 
     <mat-card class="dashboard-card">
       <mat-card-header>
@@ -27,14 +36,14 @@
       </mat-card-content>
     </mat-card>
 
-    <mat-card class="dashboard-card">
+    <!--<mat-card class="dashboard-card">
       <mat-card-header>
         <mat-card-title>Public Satisfaction Score</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <p>{{ (analyticsData$ | async)?.publicSatisfactionScore }} / 5</p>
       </mat-card-content>
-    </mat-card>
+    </mat-card>-->
   </div>
 
 
@@ -55,80 +64,75 @@
     <mat-card-actions>
       <mat-button-toggle (click)="toggleChart()">Toggle</mat-button-toggle>
     </mat-card-actions>
-    </mat-card>
+  </mat-card>
 
-  <!--<mat-card class="dashboard-card">
+  <mat-card class="dashboard-bar mt-3">
     <mat-card-header>
-      <mat-card-title>Metrics by Category</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div *ngFor="let categoryData of (categoryMetricsData$ | async)">
-        <p>{{ categoryData.category }}:</p>
-        <p>Response Time: {{ categoryData.responseTime }}</p>
-        <p>Resolution Rate: {{ categoryData.rate }}</p>
-      </div>
-    </mat-card-content>
-  </mat-card>-->
-
-  <!--<mat-card class="">
-    <mat-card-header>
-      <mat-card-title>Average Response Time by Category</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <canvas baseChart
-              [datasets]="(categoryResponseTimeData$ | async) || undefined"
-              [labels]="(categoryChartLabels$ | async) || undefined"
-              [options]="{ responsive: true }"
-              [legend]="true"
-              [type]="'bar'">
-      </canvas>
-    </mat-card-content>
-  </mat-card>-->
-
-  <div class="dashboard-line mt-3">
-    <mat-card class="dashboard-pie">
-      <mat-card-header>
-        <mat-card-title>Average Response Time by Category</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <canvas baseChart
-                [datasets]="(categoryResponseTimeData$ | async) || undefined"
-                [labels]="(categoryChartLabels$ | async) || undefined"
-                [options]="{ responsive: true }"
-                [legend]="true"
-                [type]="'pie'">
-        </canvas>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card class="dashboard-pie">
-      <mat-card-header>
-        <mat-card-title>Resolution Rate by Category</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <canvas baseChart
-                [datasets]="(categoryResolutionRateData$ | async) || undefined"
-                [labels]="(categoryChartLabels$ | async) || undefined"
-                [options]="{ responsive: true }"
-                [legend]="true"
-                [type]="'pie'">
-        </canvas>
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  <!--<mat-card class="dashboard-pie">
-    <mat-card-header>
-      <mat-card-title>Combined Metrics by Category</mat-card-title>
+      <mat-card-title>Average Metrics by Category</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <canvas baseChart
               [datasets]="(combinedCategoryData$ | async) || undefined"
               [labels]="(categoryChartLabels$ | async) || undefined"
-              [options]="{ responsive: true}"
+              [options]="{ responsive: true }"
               [legend]="true"
-              [type]="'pie'">
+
+              [type]="'bar'">
       </canvas>
     </mat-card-content>
-  </mat-card>-->
+  </mat-card>
+
+  <mat-card class="dashboard-pies mt-3">
+    <mat-card-header>
+      <mat-card-title>Service Request Distribution by</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="dashboard-line mt-3 disabled-shadow">
+        <mat-card class="dashboard-pie">
+          <mat-card-header>
+            <mat-card-title>Category</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <canvas baseChart
+                    [datasets]="(categoryCountData$ | async) || undefined"
+                    [labels]="(categoryChartLabels$ | async) || undefined"
+                    [options]="{ responsive: true }"
+                    [legend]="true"
+                    [type]="'pie'">
+            </canvas>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="dashboard-pie smaller">
+          <mat-card-header>
+            <mat-card-title>Priority</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <canvas baseChart
+                    [datasets]="(priorityCountData$ | async) || undefined"
+                    [labels]="(priorityCountLabels$ | async) || undefined"
+                    [options]="{ responsive: true }"
+                    [legend]="true"
+                    [type]="'pie'">
+            </canvas>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="dashboard-pie smaller">
+          <mat-card-header>
+            <mat-card-title>Status</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <canvas baseChart
+                    [datasets]="(statusCountData$ | async) || undefined"
+                    [labels]="(statusCountLabels$ | async) || undefined"
+                    [options]="{ responsive: true }"
+                    [legend]="true"
+                    [type]="'pie'">
+            </canvas>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
