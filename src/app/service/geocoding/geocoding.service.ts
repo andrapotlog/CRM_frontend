@@ -1,3 +1,4 @@
+/*
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -16,3 +17,4 @@ export class GeocodingService {
     return this.http.get(url);
   }
 }
+*/

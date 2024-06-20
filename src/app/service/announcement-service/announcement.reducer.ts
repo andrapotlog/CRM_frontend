@@ -29,7 +29,6 @@ export const announcementReducer = createReducer(
     ...state,
     announcements: payload,
     loading: false,
-    //error: null
   })),
 
   on(AnnouncementActions.loadAnnouncementsFailure, (state, { error }) => ({
@@ -46,7 +45,6 @@ export const announcementReducer = createReducer(
   on(AnnouncementActions.createAnnouncementSuccess, (state) => ({
     ...state,
     loading: false,
-    //error: null
   })),
   on(AnnouncementActions.createAnnouncementFailure, (state, { error }) => ({
     ...state,

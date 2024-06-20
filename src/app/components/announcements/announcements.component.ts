@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AnnouncementService } from '../../service/announcement-service/announcement.service';
 import { Observable } from 'rxjs';
 import { Announcement } from '../../service/announcement-service/announcement.model';
 import {
@@ -10,7 +9,6 @@ import { selectAnnouncements } from '../../service/announcement-service/announce
 import { Store } from '@ngrx/store';
 import { selectCurrentUserLocation } from '../../service/user-service/user.reducer';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { SharedService } from '../../service/shared-service/shared.service';
 
 @Component({
@@ -30,20 +28,7 @@ export class AnnouncementsComponent implements OnInit {
   //email notif when announcement posted v
   //maybe a crawler to gather some more announcement from sites like stb etc
 
-  areas: string[] = [
-    'General',
-    'Bucuresti - Sector 1',
-    'Bucuresti - Sector 2',
-    'Bucuresti - Sector 3',
-    'Bucuresti - Sector 4',
-    'Bucuresti - Sector 5',
-    'Bucuresti - Sector 6',
-  ];
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  selectedAreas: string[] = [];
-
   constructor(
-    private announcementService: AnnouncementService,
     public sharedService: SharedService,
     private store: Store,
     private fb: FormBuilder,
@@ -53,6 +38,7 @@ export class AnnouncementsComponent implements OnInit {
       content: ['', Validators.required],
       areaAffected: ['General', Validators.required],
     });
+    this.store.dispatch(loadAnnouncements({ payload: 0 }));
     this.userLocation$.subscribe((location) => {
       if (location)
         this.store.dispatch(loadAnnouncements({ payload: location }));
@@ -60,16 +46,7 @@ export class AnnouncementsComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    //this.announcements$ = this.announcementService.getAnnouncements();
-
-    this.announcements$.subscribe((res) => console.log(res));
-  }
-
-  /*toggleContent(announcement: Announcement): void {
-    console.log(announcement)
-    announcement.expanded = !announcement.expanded;
-  }*/
+  ngOnInit(): void {}
 
   toggleExpanded(id: number) {
     if (this.expandedIds.has(id)) {
@@ -81,10 +58,6 @@ export class AnnouncementsComponent implements OnInit {
 
   isExpanded(id: number): boolean {
     return this.expandedIds.has(id);
-  }
-
-  needsExpansion(content: string): boolean {
-    return content.length > 300;
   }
 
   onSubmit() {

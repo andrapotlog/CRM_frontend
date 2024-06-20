@@ -9,16 +9,15 @@ import { TemplateService } from '../../../service/payments/template-service/temp
   styleUrls: ['./save-payment-dialog.component.css'],
 })
 export class SavePaymentDialogComponent {
-  templateName: string = ''; // Add this line
+  templateName: string = '';
+
   constructor(
     public dialogRef: MatDialogRef<SavePaymentDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Template, // Pass payment data here
+    @Inject(MAT_DIALOG_DATA) public data: Template,
     private templateService: TemplateService,
   ) {}
 
   saveTemplate() {
-    // Implement logic to save payment details as a template
-    // You'll likely need to access a service or store to handle saving
     this.templateService.saveTemplate({
       ...this.data,
       templateName: this.templateName,
@@ -28,6 +27,6 @@ export class SavePaymentDialogComponent {
       ...this.data,
       templateName: this.templateName,
     });
-    this.dialogRef.close(true); // Close the dialog with 'true' to indicate saving
+    this.dialogRef.close(true);
   }
 }

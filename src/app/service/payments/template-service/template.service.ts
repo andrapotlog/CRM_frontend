@@ -2,12 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as fromModel from '../payment.model';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TemplateService {
-  private apiUrl = 'http://localhost:6060/api/templates';
+  // private apiUrl = 'http://localhost/api/templates';
+
+  private apiUrl = environment.apiEndpoints.templatesService;
+
+  // private apiUrl = 'http://localhost:6060/api/templates';
 
   constructor(private http: HttpClient) {}
 
@@ -17,9 +22,6 @@ export class TemplateService {
       headers: { Authorization: `Bearer ${token}` },
     };
     return this.http.get<fromModel.Template[]>(this.apiUrl, config);
-    //console.log(this.templates);
-    //return of(this.templates);
-    //return this.http.get<Payment[]>(this.apiUrl);
   }
 
   saveTemplate(template: fromModel.Template) {
@@ -35,9 +37,6 @@ export class TemplateService {
       },
     );
     return request;
-    //this.templates.push(template);
-    //return of(this.payments);
-    //return this.http.post<Payment>(this.apiUrl, payment);
   }
 
   deleteTemplate(id: number) {
@@ -45,7 +44,6 @@ export class TemplateService {
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
-    //this.templates = this.templates.filter((p) => p.id !== id);
     return this.http.delete<void>(`${this.apiUrl}/${id}`, config);
   }
 }

@@ -53,23 +53,6 @@ export class AnnouncementEffects {
     ),
   );
 
-  /*loadUser$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(UserActions.loadUser),
-      switchMap(() =>
-        this.loadUser().pipe(
-          switchMap((result) => [
-            UserActions.loadUserSuccess({ payload: result }),
-          ]),
-          catchError((error: HttpErrorResponse) => {
-            console.log(error);
-            return [UserActions.loadUsersFailure({ error: error.error })];
-          }),
-        ),
-      ),
-    ),
-  );
-*/
   constructor(
     private actions$: Actions,
     private store: Store,
@@ -77,19 +60,10 @@ export class AnnouncementEffects {
   ) {}
 
   loadAll(payload: number): Observable<Announcement[]> {
-    const req = this.announcementService.getAnnouncements(payload);
-    return req; /*.pipe(
-      map(result => AnnouncementMapper.mapAnnouncements(result))
-    ).subscribe(res=> console.log(res));
-
-    return req;*/
+    return this.announcementService.getAnnouncements(payload);
   }
 
   createAnnouncement(payload: Announcement) {
     return this.announcementService.createAnnouncement(payload);
   }
-
-  /* loadUser(): Observable<UserModel> {
-    return this.userService.getUser();
-  }*/
 }

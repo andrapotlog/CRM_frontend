@@ -17,6 +17,6 @@ export class SavedCardsDialogComponent {
   ) {}
 
   selectCard(card: any) {
-    this.dialogRef.close(card); // Return the selected card
+    this.dialogRef.close(card);
   }
 }

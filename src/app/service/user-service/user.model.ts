@@ -4,16 +4,16 @@ export interface UserModel {
   lastName: string;
   email: string;
   clientCode: string;
-  //birthDate: Date;
+  birthdate: string;
   cnp: string;
   phoneNumber: string;
   address: string;
   city: number;
-  // country: string;
   postalCode: string;
   sendEmail: boolean;
   termsAndConditions: boolean;
   roles?: Role[];
+  creationDate?: string;
 }
 
 export interface UserCredentials {

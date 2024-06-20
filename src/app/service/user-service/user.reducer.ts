@@ -77,11 +77,11 @@ export const userReducer = createReducer(
   on(UserActions.updateUser, (state, { payload }) => ({
     ...state,
     loading: true,
-    // currentUser: null
   })),
 
   on(UserActions.updateUserSuccess, (state) => ({
     ...state,
+    loading: false,
   })),
 
   on(UserActions.updateUserFailure, (state, { error }) => ({

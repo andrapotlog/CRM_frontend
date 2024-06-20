@@ -68,7 +68,6 @@ export class UserEffects {
       switchMap(() =>
         this.loadUser().pipe(
           switchMap((result) => {
-            console.log('load user');
             return [UserActions.loadUserSuccess({ payload: result })];
           }),
           catchError((error: HttpErrorResponse) => {
@@ -90,7 +89,7 @@ export class UserEffects {
       switchMap(({ payload }) =>
         this.modifyUser(payload).pipe(
           switchMap((updatedUser) => [
-            UserActions.updateUserSuccess(),
+            UserActions.updateUserSuccess({ payload: updatedUser }),
             UserActions.loadUser(), // Dispatch loadUser to reload user data
           ]),
           catchError((error: HttpErrorResponse) => {

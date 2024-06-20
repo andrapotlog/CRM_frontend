@@ -3,28 +3,26 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import * as fromModel from './user.model';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { environment } from '../../../enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  test_url = 'http://localhost:9090/users';
+  // test_url = 'http://localhost/api/users';
+  private apiUrl = environment.apiEndpoints.userService;
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private store: Store,
-  ) {}
+  // test_url = 'http://localhost:9090/users';
+
+  constructor(private http: HttpClient) {}
 
   getUsers(): Observable<fromModel.UserModel[]> {
-    return this.http.get<fromModel.UserModel[]>(this.test_url);
+    return this.http.get<fromModel.UserModel[]>(this.apiUrl);
   }
 
   registerUserData(userData: fromModel.RegistrationData) {
     console.log(userData);
-    return this.http.post(this.test_url, userData);
+    return this.http.post(this.apiUrl, userData);
   }
 
   getUser(): Observable<fromModel.UserModel> {
@@ -33,7 +31,7 @@ export class UserService {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    return this.http.get<fromModel.UserModel>(this.test_url + '/user', config);
+    return this.http.get<fromModel.UserModel>(this.apiUrl + '/user', config);
   }
 
   modifyUserData(user: fromModel.UserModel) {
@@ -42,6 +40,6 @@ export class UserService {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    return this.http.put<fromModel.UserModel>(this.test_url, user, config);
+    return this.http.put<fromModel.UserModel>(this.apiUrl, user, config);
   }
 }

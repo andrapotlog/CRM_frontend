@@ -117,36 +117,25 @@ export class RegisterComponent implements OnInit {
 
       address: new FormControl('', [Validators.required]),
       city: new FormControl('', [Validators.required]),
-      //country: new FormControl('', [Validators.required]),
       postalCode: new FormControl('', [
         Validators.required,
         Validators.pattern(/^\d{6}$/),
       ]),
-      agreeToProcessData: [false, Validators.requiredTrue],
-      agreeToReceiveUpdates: [false],
+      termsAndConditions: [false, Validators.requiredTrue],
+      sendEmail: [false],
     });
   }
 
   ngOnInit(): void {
     this.countryCodes = this.getCountryCodes();
-
-    /*this.user-service.getUsers().subscribe((users) => console.log(users));
-     */
     this.store.dispatch(loadUsers());
 
-    this.users$.subscribe((users) => console.log(users));
     this.error$.subscribe((error) => {
       this.cnpAlreadyExistsError = !!(error && error.statusCode === 400);
     });
   }
 
   firstSubmit() {
-    console.log(
-      this.credentialsForm.controls['email'].value +
-        ' ' +
-        this.credentialsForm.controls['password'].value,
-    );
-
     this.authService
       .registerUserCredentials(this.credentialsForm.controls['email'].value)
       .subscribe(
@@ -155,7 +144,6 @@ export class RegisterComponent implements OnInit {
           this.personalDataPage = true;
         },
         (error) => {
-          // if (error instanceof HttpErrorResponse) console.log(error.status);
           console.log(error);
           this.userCredentialsError = true;
         },
@@ -163,28 +151,6 @@ export class RegisterComponent implements OnInit {
   }
 
   finalSubmit() {
-    /*this.user-service
-      .registerUserData({
-        firstName: this.credentialsForm.controls['firstName'].value,
-        lastName: this.credentialsForm.controls['lastName'].value,
-        email: this.credentialsForm.controls['email'].value,
-        clientCode: this.credentialsForm.controls['clientCode'].value,
-        cnp: this.personalDataForm.controls['cnp'].value,
-        phoneNumber:
-          this.personalDataForm.controls['countryCode'].value +
-          this.personalDataForm.controls['phoneNumber'].value,
-        address: this.personalDataForm.controls['address'].value,
-        city: this.personalDataForm.controls['city'].value,
-        country: this.personalDataForm.controls['country'].value,
-        postalCode: this.personalDataForm.controls['postalCode'].value,
-      })
-      .subscribe(
-        (res) => console.log(res),
-        (error) => {
-          this.cnpAlreadyExistsError = true;
-        },
-      );*/
-
     const payload: UserModel.RegistrationData = {
       userCredentials: {
         email: this.credentialsForm.controls['email'].value,
@@ -196,12 +162,12 @@ export class RegisterComponent implements OnInit {
         email: this.credentialsForm.controls['email'].value,
         clientCode: this.credentialsForm.controls['clientCode'].value,
         cnp: this.personalDataForm.controls['cnp'].value,
+        birthdate: this.personalDataForm.controls['birthDate'].value,
         phoneNumber:
           this.personalDataForm.controls['countryCode'].value +
           this.personalDataForm.controls['phoneNumber'].value,
         address: this.personalDataForm.controls['address'].value,
         city: this.personalDataForm.controls['city'].value,
-        //country: this.personalDataForm.controls['country'].value,
         sendEmail:
           this.personalDataForm.controls['agreeToReceiveUpdates'].value,
         termsAndConditions:
@@ -312,7 +278,6 @@ export class RegisterComponent implements OnInit {
 
     const phoneNumberUtil = PhoneNumberUtil.getInstance();
 
-    //if (phoneNumberInput) {
     try {
       const phoneNumber = phoneNumberUtil.parse(
         '+' + countryCode + phoneNumberInput,
@@ -323,8 +288,5 @@ export class RegisterComponent implements OnInit {
     } catch (error) {
       return { phoneNumberInvalid: true };
     }
-    // }
-
-    // return null;
   }
 }

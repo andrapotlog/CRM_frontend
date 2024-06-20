@@ -68,6 +68,10 @@ export class SharedService {
     return this.areas;
   }
 
+  getUserLocations() {
+    return this.areas.slice(1);
+  }
+
   constructor(private store: Store) {
     store
       .select(fromActions.selectCurrentUserRole)
@@ -80,7 +84,6 @@ export class SharedService {
   }
 
   getAreaLabel(value: number): string {
-    console.log(value);
     const type = this.areas.find((type) => type.value === value);
     return type ? type.label : 'Unknown area';
   }
