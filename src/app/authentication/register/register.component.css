@@ -40,3 +40,12 @@
 .register-body-field-checkbox {
 
 }
+
+mat-slide-toggle {
+  button {
+    .mdc-switch__track {
+      height: 25px;
+      padding-right: 10px;
+    }
+  }
+}

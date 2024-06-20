@@ -9,10 +9,13 @@
       <p *ngIf="data.request.updateDate"><strong>Last update
         date:</strong> {{ data.request.updateDate | date:"d MMMM y HH:mm" }}
       </p>
-      <p *ngIf="data.request.updateDate"><strong>Description:</strong> {{ data.request.description }}
+      <p *ngIf="data.request.description"><strong>Description:</strong> {{ data.request.description }}
+      </p>
+      <p *ngIf="data.request.completedDate">
+        <strong>Completed:</strong> {{ data.request.completedDate | date:"d MMMM y HH:mm" }}
       </p>
     </div>
-
+    
     <div class="edit-request-form-type">
       <mat-form-field appearance="outline">
         <mat-label>Type</mat-label>
@@ -38,7 +41,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-
 
     <div class="edit-request-form-priority-status">
       <mat-form-field appearance="outline">

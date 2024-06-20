@@ -115,7 +115,7 @@
       </form>
     </div>
 
-    <div class="register-body-personalData" *ngIf="true">
+    <div class="register-body-personalData" *ngIf="personalDataPage">
       <h3>Please provide your personal information.</h3>
       <form
         class="register-body-form"
@@ -221,7 +221,8 @@
           <mat-form-field class="register-body-field" appearance="outline">
             <mat-label>Location</mat-label>
             <mat-select formControlName="city">
-              <mat-option *ngFor="let area of sharedService.getAreas" [value]="area.value">{{ area.label }}</mat-option>
+              <mat-option *ngFor="let area of sharedService.getUserLocations()" [value]="area.value">{{ area.label }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -254,11 +255,11 @@
         </div>
 
         <p class="register-body-field-checkbox">
-          <mat-slide-toggle formControlName="agreeToProcessData" color="primary">I agree to Terms and Conditions.
+          <mat-slide-toggle formControlName="termsAndConditions" color="primary">I agree to Terms and Conditions.
           </mat-slide-toggle>
         </p>
         <p class="register-body-field-checkbox">
-          <mat-slide-toggle formControlName="agreeToReceiveUpdates" color="primary">I want to receive announcements via
+          <mat-slide-toggle formControlName="sendEmail" color="primary">I want to receive announcements via
             email
           </mat-slide-toggle>
         </p>

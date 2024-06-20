@@ -22,6 +22,7 @@ export interface ServiceRequestModel {
   status?: RequestStatusEnum;
   creationDate?: string;
   updateDate?: string;
+  completedDate?: string;
   observations: string;
   createdByUser?: number;
 }

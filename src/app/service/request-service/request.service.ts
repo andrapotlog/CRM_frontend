@@ -2,12 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ServiceRequestModel } from './request.model';
+import { environment } from '../../../enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RequestService {
-  private apiUrl = 'http://localhost:8080/api/requests';
+  // private apiUrl = 'http://localhost/api/requests';
+
+  private apiUrl = environment.apiEndpoints.requestsService;
+
+  // private apiUrl = 'http://localhost:8080/api/requests';
 
   constructor(private http: HttpClient) {}
 
@@ -51,8 +56,6 @@ export class RequestService {
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
-
-    console.log(request);
 
     return this.http.put(this.apiUrl, request, config);
   }

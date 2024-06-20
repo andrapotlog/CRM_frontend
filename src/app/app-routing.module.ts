@@ -6,7 +6,7 @@ import { ServiceRequestComponent } from './components/service-request/service-re
 import { TrackRequestsComponent } from './components/track-requests/track-requests.component';
 import { AnnouncementsComponent } from './components/announcements/announcements.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ProfileComponent } from './components/profile/profile/profile.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { PaymentsComponent } from './components/payments/payments.component';
 
 const routes: Routes = [

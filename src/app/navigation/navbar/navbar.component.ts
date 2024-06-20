@@ -42,7 +42,7 @@ export class NavbarComponent implements OnInit {
   }
 
   goToServiceRequest() {
-    this.router.navigateByUrl('/service-request');
+    this.router.navigateByUrl('/track-request');
   }
 
   goToAnnouncements() {

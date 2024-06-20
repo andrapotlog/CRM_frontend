@@ -4,6 +4,10 @@
   margin: auto;
 }
 
+.track-requests-btn-create {
+  margin-bottom: 20px;
+}
+
 .track-requests-filter-pannel {
   margin-bottom: 20px;
 }
@@ -23,7 +27,18 @@ mat-expansion-panel-header {
   0px 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
+td {
+  padding: 20px 10px;
+}
+
 .observations {
   width: 40%;
-  padding: 20px 10px;
+}
+
+.track-requests-filter-field {
+  margin-right: 10px;
+}
+
+.track-requests-filter-btn {
+  margin-right: 10px;
 }

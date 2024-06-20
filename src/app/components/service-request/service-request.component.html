@@ -1,74 +1,78 @@
 <p>service-request works!</p>
 
-<h2>Submit a Service Request</h2>
-<form [formGroup]="serviceRequestForm" (ngSubmit)="onSubmit()">
-  <div class="form-container">
-    <mat-form-field class="form-container-field" appearance="outline">
-      <mat-label>Request Type</mat-label>
-      <mat-select formControlName="type">
-        <mat-option *ngFor="let type of requestTypes" [value]="type.value">{{ type.label }}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="serviceRequestForm.get('type')?.hasError('required')">Request type is required.</mat-error>
-    </mat-form-field>
 
-    <mat-form-field class="form-container-field" appearance="outline">
-      <mat-label>Description</mat-label>
-      <textarea matInput formControlName="description"></textarea>
-      <mat-error *ngIf="serviceRequestForm.get('description')?.hasError('required')">Description is required.
-      </mat-error>
-      <mat-error *ngIf="serviceRequestForm.get('description')?.hasError('minlength')">Description must be at least 10
-        characters long.
-      </mat-error>
-    </mat-form-field>
+<div class="request-wrapper">
+  <mat-card class="request mat-elevation-z8">
+    <mat-card-header>
+      <mat-card-title>Submit a Service Request</mat-card-title>
+      <mat-card-subtitle>Please fill al the the fields with the required data.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="request-content">
+      <form [formGroup]="serviceRequestForm" (ngSubmit)="onSubmit()">
+        <div class="form-container">
+          <mat-form-field class="form-container-field" appearance="outline">
+            <mat-label>Request Type</mat-label>
+            <mat-select formControlName="type">
+              <mat-option *ngFor="let type of sharedService.getRequestTypes" [value]="type.value">{{ type.label }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="serviceRequestForm.get('type')?.hasError('required')">Request type is required.
+            </mat-error>
+          </mat-form-field>
 
-    <mat-form-field class="form-container-field" appearance="outline">
-      <mat-label>Location</mat-label>
-      <mat-select formControlName="location">
-        <mat-option *ngFor="let area of areas" [value]="area.value">{{ area.label }}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="serviceRequestForm.controls['location'].invalid">At least one area must be selected
-      </mat-error>
-    </mat-form-field>
+          <mat-form-field class="form-container-field" appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+            <mat-error *ngIf="serviceRequestForm.get('description')?.hasError('required')">Description is required.
+            </mat-error>
+            <mat-error *ngIf="serviceRequestForm.get('description')?.hasError('minlength')">Description must be at least
+              10
+              characters long.
+            </mat-error>
+          </mat-form-field>
 
-    <mat-form-field class="form-container-field" appearance="outline">
-      <mat-label>Address</mat-label>
-      <input matInput formControlName="address">
-      <mat-error *ngIf="serviceRequestForm.get('address')?.hasError('required')">
-        Location is required.
-      </mat-error>
-    </mat-form-field>
+          <mat-form-field class="form-container-field" appearance="outline">
+            <mat-label>Location</mat-label>
+            <mat-select formControlName="location">
+              <mat-option *ngFor="let area of sharedService.getAreas" [value]="area.value">{{ area.label }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="serviceRequestForm.controls['location'].invalid">At least one area must be selected
+            </mat-error>
+          </mat-form-field>
 
-    <mat-form-field class="form-container-field" appearance="outline">
-      <mat-label>Priority</mat-label>
-      <mat-select formControlName="priority">
-        <mat-option *ngFor="let priority of priorities" [value]="priority.toUpperCase()">{{ priority }}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="serviceRequestForm.get('priority')?.hasError('required')">
-        Priority level is required.
-      </mat-error>
-    </mat-form-field>
+          <mat-form-field class="form-container-field" appearance="outline">
+            <mat-label>Address</mat-label>
+            <input matInput formControlName="address">
+            <mat-error *ngIf="serviceRequestForm.get('address')?.hasError('required')">
+              Location is required.
+            </mat-error>
+          </mat-form-field>
 
-    <div class="button-container">
-      <button
-        mat-raised-button
-        type="submit"
-        color="primary"
-        [disabled]="serviceRequestForm.invalid"
-      >
-        Submit
-      </button>
-    </div>
+          <mat-form-field class="form-container-field" appearance="outline">
+            <mat-label>Priority</mat-label>
+            <mat-select formControlName="priority">
+              <mat-option *ngFor="let priority of priorities" [value]="priority.toUpperCase()">{{ priority }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="serviceRequestForm.get('priority')?.hasError('required')">
+              Priority level is required.
+            </mat-error>
+          </mat-form-field>
+
+          <div class="button-container">
+            <button
+              mat-raised-button
+              type="submit"
+              color="primary"
+              [disabled]="serviceRequestForm.invalid"
+            >
+              Submit
+            </button>
+          </div>
 
 
-  </div>
-</form>
-
-<div class="button-container">
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="goToTrackRequests()"
-  >
-    Check your requests
-  </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
 </div>

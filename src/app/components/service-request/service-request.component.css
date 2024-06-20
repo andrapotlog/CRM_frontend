@@ -1,12 +1,30 @@
+.request {
+  width: 40%;
+  margin: auto;
+}
+
+mat-card-header, mat-card-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
 .form-container {
-  width: 25rem;
+  width: 100%;
   text-align: center;
+  margin: 20px;
 }
 
 .form-container-field {
-  width: 20rem;
+  width: 90%;
   margin-bottom: 0.4rem;
+
+  textarea {
+    height: 200px
+  }
 }
+
 
 button {
   margin-top: 16px;
