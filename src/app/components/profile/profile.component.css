@@ -1,0 +1,45 @@
+.profile-component {
+  width: 90%;
+  margin: auto;
+  font-size: 16px !important;
+}
+
+.profile-component-data {
+  margin: 15px 30px;
+}
+
+.profile-form-field-container {
+  .profile-form-field {
+    width: 15rem;
+  }
+}
+
+.profile-form-btn-edit {
+  margin: 30px;
+}
+
+.profile-form-btn-submit {
+  margin-top: 15px;
+}
+
+mat-select[disabled] {
+  color: rgba(0, 0, 0, 0.38);
+}
+
+mat-card-title {
+  font-size: 25px !important;
+}
+
+mat-card-subtitle {
+  margin-top: 5px;
+  font-size: 17px !important;
+}
+
+mat-slide-toggle {
+  button {
+    .mdc-switch__track {
+      height: 25px;
+      padding-right: 10px;
+    }
+  }
+}

@@ -1,0 +1,175 @@
+<!--<p>profile works!</p>-->
+<ng-container *ngIf="loading$ | async; else loadedPage">
+  <div class="d-flex justify-content-center mt-4">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #loadedPage>
+  <mat-card class="profile-component mat-elevation-z8" *ngIf="currentUser$ | async as user">
+    <mat-card-header>
+      <mat-card-title>{{ user.firstName }} {{ user.lastName }}, welcome to your Citizen
+        Portal
+      </mat-card-title>
+      <mat-card-subtitle>
+        This is your one-stop platform for all public services and
+        information.
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="profile-component-data">
+      <div *ngIf="viewOnly; else editMode">
+        <p><strong>Name:</strong> {{ user.firstName }} {{ user.lastName }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Client code:</strong> {{ user.clientCode }}</p>
+        <p><strong>Identity number:</strong> {{ user.cnp }}</p>
+        <p><strong>Birthdate:</strong> {{ user.birthdate | date:"dd-MM-yyyy" }}</p>
+        <p><strong>Phone number:</strong> {{ user.phoneNumber }}</p>
+        <p><strong>Address:</strong> {{ user.address }}</p>
+        <p><strong>Location:</strong> {{ sharedService.getAreaLabel(user.city) }}</p>
+        <p><strong>Postal Code:</strong> {{ user.postalCode }}</p>
+        <p><strong>Creation date of account:</strong> {{ user.creationDate | date:"dd-MM-yyyy" }}</p>
+        <p><strong>Receive information on email:</strong> {{ user.sendEmail ? 'Yes' : 'No' }}</p>
+      </div>
+
+      <ng-template #editMode>
+        <form
+          class="profile-form"
+          [formGroup]="userDataForm"
+          (ngSubmit)="updatePersonalData(user)"
+        >
+          <div class="profile-form">
+            <div class="profile-form-field-container">
+              <mat-form-field
+                class="profile-form-field"
+                appearance="outline"
+              >
+                <mat-label>First Name</mat-label>
+                <input
+                  matInput
+                  formControlName="firstName"
+                  required
+                  type="text"
+                />
+              </mat-form-field>
+            </div>
+
+            <div class="profile-form-field-container">
+              <mat-form-field
+                class="profile-form-field"
+                appearance="outline"
+              >
+                <mat-label>Last Name</mat-label>
+                <input
+                  matInput
+                  formControlName="lastName"
+                  required
+                  type="text"
+                />
+              </mat-form-field>
+            </div>
+
+            <div class="profile-form-field-container">
+              <mat-form-field
+                class="profile-form-field"
+                appearance="outline"
+              >
+                <mat-label>Phone Number</mat-label>
+                <input
+                  matInput
+                  formControlName="phoneNumber"
+                  required
+                  type="text"
+                />
+                <!--<mat-error
+                *ngIf="
+            personalDataForm.controls['phoneNumber'].hasError(
+              'phoneNumberInvalid'
+            )
+          "
+            >
+                Invalid input
+            </mat-error>-->
+              </mat-form-field>
+            </div>
+
+            <div class="profile-form-field-container">
+              <mat-form-field
+                class="profile-form-field"
+                appearance="outline"
+              >
+                <mat-label>Address</mat-label>
+                <input
+                  matInput
+                  formControlName="address"
+                  required
+                  type="text"
+                />
+              </mat-form-field>
+            </div>
+
+            <div class="profile-form-field-container">
+              <mat-form-field
+                class="profile-form-field" appearance="outline">
+                <mat-label>Location</mat-label>
+                <mat-select formControlName="city">
+                  <mat-option *ngFor="let area of sharedService.getUserLocations()" [value]="area.value"
+                              [disabled]="viewOnly"
+                  >{{ area.label }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="profile-form-field-container">
+              <mat-form-field
+                class="profile-form-field"
+                appearance="outline"
+              >
+                <mat-label>Postal Code</mat-label>
+                <input
+                  matInput
+                  formControlName="postalCode"
+                  required
+                  type="text"
+                  [readonly]="viewOnly"
+                />
+
+              </mat-form-field>
+            </div>
+
+            <p class="register-body-field-checkbox">
+              <mat-slide-toggle formControlName="sendEmail" color="primary">I want to receive announcements via
+                email
+              </mat-slide-toggle>
+            </p>
+
+            <button
+              class="profile-form-btn-submit"
+              mat-raised-button
+              type="submit"
+              color="primary"
+              [disabled]="userDataForm.invalid"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </ng-template>
+    </mat-card-content>
+    <mat-card-actions *ngIf="viewOnly">
+      <button
+        class="profile-form-btn-edit"
+        mat-raised-button
+        color="primary"
+        *ngIf="viewOnly"
+        (click)="editData()"
+      >
+        Edit personal data
+      </button>
+    </mat-card-actions>
+
+  </mat-card>
+</ng-template>

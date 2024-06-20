@@ -1,8 +1,0 @@
-.profile-component {
-  width: 90%;
-  margin: auto;
-}
-
-mat-select[disabled] {
-  color: rgba(0, 0, 0, 0.38); /* Style the disabled state */
-}
