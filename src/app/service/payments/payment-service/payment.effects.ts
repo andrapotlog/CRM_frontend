@@ -48,7 +48,10 @@ export class PaymentEffects {
       ofType(PaymentActions.savePayment),
       switchMap(({ payload }) =>
         this.savePayment(payload).pipe(
-          switchMap(() => [PaymentActions.savePaymentSuccess()]),
+          switchMap(() => [
+            PaymentActions.savePaymentSuccess(),
+            PaymentActions.loadPayments(),
+          ]),
           catchError((error: HttpErrorResponse) => {
             console.log(error);
             return [PaymentActions.savePaymentFailure({ error: error.error })];

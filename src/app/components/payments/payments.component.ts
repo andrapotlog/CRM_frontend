@@ -22,9 +22,9 @@ import { Store } from '@ngrx/store';
 import { loadTemplates } from '../../service/payments/template-service/template.actions';
 import { loadPayments } from '../../service/payments/payment-service/payment.actions';
 import { loadCards } from '../../service/payments/cards-service/card.actions';
-import { selectTemplates } from '../../service/payments/template-service/template.reducer';
-import { selectCards } from '../../service/payments/cards-service/card.reducer';
-import { selectPayments } from '../../service/payments/payment-service/payment.reducer';
+import * as fromTemplateReducer from '../../service/payments/template-service/template.reducer';
+import * as fromCardReducer from '../../service/payments/cards-service/card.reducer';
+import * as fromPaymentReducer from '../../service/payments/payment-service/payment.reducer';
 
 @Component({
   selector: 'app-payments',
@@ -32,11 +32,22 @@ import { selectPayments } from '../../service/payments/payment-service/payment.r
   styleUrls: ['./payments.component.css'],
 })
 export class PaymentsComponent implements OnInit {
-  templates$: Observable<Nullable<Template[]>> =
-    this.store.select(selectTemplates);
-  cards$: Observable<Nullable<CardInformation[]>> =
-    this.store.select(selectCards);
-  payments$: Observable<Payment[]> = this.store.select(selectPayments);
+  templates$: Observable<Nullable<Template[]>> = this.store.select(
+    fromTemplateReducer.selectTemplates,
+  );
+  cards$: Observable<Nullable<CardInformation[]>> = this.store.select(
+    fromCardReducer.selectCards,
+  );
+  payments$: Observable<Payment[]> = this.store.select(
+    fromPaymentReducer.selectPayments,
+  );
+
+  paymentLoading$: Observable<boolean> = this.store.select(
+    fromPaymentReducer.selectLoading,
+  );
+  templateLoading$: Observable<boolean> = this.store.select(
+    fromTemplateReducer.selectLoading,
+  );
 
   isTemplateSelected: boolean = false;
   newTemplate: boolean = false;
@@ -58,9 +69,6 @@ export class PaymentsComponent implements OnInit {
     private fb: FormBuilder,
     public dialog: MatDialog,
   ) {
-    // this.templates$ = templateService.getTemplates();
-    // this.cards$ = this.cardService.getCardsDetails();
-    // this.payments$ = this.paymentService.getPayments();
     this.store.dispatch(loadTemplates());
     this.store.dispatch(loadPayments());
     this.store.dispatch(loadCards());
@@ -86,11 +94,7 @@ export class PaymentsComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.cards$.subscribe((res) => console.log(res));
-    this.templates$.subscribe((res) => console.log(res));
-    this.payments$.subscribe((res) => console.log(res));
-  }
+  ngOnInit() {}
 
   openSavedCardsDialog() {
     const dialogRef = this.dialog.open(SavedCardsDialogComponent, {
@@ -110,9 +114,8 @@ export class PaymentsComponent implements OnInit {
     });
   }
 
-  onSubmitPayment(/*template: Template*/) {
+  onSubmitPayment() {
     if (this.paymentForm.valid) {
-      //console.log(template);
       console.log(this.paymentForm.value);
       this.paymentService.savePayment({
         ...this.paymentForm.value,
@@ -127,18 +130,17 @@ export class PaymentsComponent implements OnInit {
           recipientAccountNumber:
             this.paymentForm.controls['recipientAccountNumber'].value,
           templateName: '',
-        }, // Pass payment data to the dialog
+        },
       });
 
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
-          // Handle the saved template (e.g., update your saved cards array)
         }
       });
     }
 
-    this.paymentService.getPayments();
-    this.templateService.getTemplates();
+    this.store.dispatch(loadTemplates());
+    this.store.dispatch(loadPayments());
   }
 
   proceedToPayment(template: Nullable<Template>) {
@@ -153,7 +155,6 @@ export class PaymentsComponent implements OnInit {
     } else {
       this.newTemplate = true;
     }
-    console.log(template);
   }
 
   getCardImgPath() {
@@ -169,19 +170,6 @@ export class PaymentsComponent implements OnInit {
   }
 
   downloadInvoice(invoiceId: string) {
-    this.paymentService.getInvoice(invoiceId);
+    this.paymentService.downloadInvoice(invoiceId);
   }
-
-  /*onCardSelection(card: CardInformation) {
-    this.selectedCard = card;
-
-    this.paymentForm.patchValue({
-      cardNumber: card.number,
-      expiration: card.expiration,
-      cvv: card.cvv,
-      ownerName: card.ownerName,
-    });
-
-    this.showSavedCards = false;
-  }*/
 }

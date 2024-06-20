@@ -4,7 +4,7 @@
 }
 
 .template {
-  width: 220px;
+  width: 240px;
   margin: 20px;
 }
 
@@ -92,7 +92,6 @@ input[type=number] {
   .payment-form-expiration-cvv {
     mat-form-field {
       width: 85px;
-      /*margin-right: 10px;*/
     }
   }
 
