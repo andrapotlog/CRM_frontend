@@ -9,9 +9,12 @@ import { PriorityEnum } from '../../service/request-service/request.model';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectCurrentUser } from '../../service/user-service/user.reducer';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import * as fromActions from '../../service/request-service/request.actions';
 import { SharedService } from '../../service/shared-service/shared.service';
+import * as fromReducer from '../../service/request-service/request.reducer';
+import { Nullable } from '../../../global.module';
+import { ErrorModel } from '../../service/error.interface';
 
 @Component({
   selector: 'app-request-service',
@@ -20,6 +23,13 @@ import { SharedService } from '../../service/shared-service/shared.service';
 })
 export class ServiceRequestComponent implements OnInit {
   takeUntil$: Subject<void> = new Subject<void>();
+  loading$: Observable<boolean> = this.store.select(fromReducer.selectLoading);
+  created$: Observable<boolean> = this.store.select(
+    fromReducer.selectRequestCreated,
+  );
+  error$: Observable<Nullable<ErrorModel>> = this.store.select(
+    fromReducer.selectError,
+  );
 
   userId: number | undefined = 0;
 

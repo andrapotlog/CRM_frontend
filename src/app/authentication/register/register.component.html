@@ -1,4 +1,4 @@
-<p>register works!</p>
+<!--<p>register works!</p>-->
 <div class="register">
   <h2>Register user</h2>
 
@@ -273,7 +273,7 @@
           mat-raised-button
           type="submit"
           color="primary"
-          [disabled]="personalDataForm.invalid"
+          [disabled]="personalDataForm.invalid || !personalDataForm.controls['termsAndConditions']"
         >
           Register
         </button>

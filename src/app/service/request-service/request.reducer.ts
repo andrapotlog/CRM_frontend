@@ -9,6 +9,7 @@ export interface State {
   selectedServiceRequest: Nullable<ServiceRequestModel>;
   loading: boolean;
   error: Nullable<ErrorModel>;
+  requestCreated: boolean;
 }
 
 export const initialState: State = {
@@ -16,6 +17,7 @@ export const initialState: State = {
   selectedServiceRequest: null,
   loading: false,
   error: null,
+  requestCreated: false,
 };
 
 export const requestReducer = createReducer(
@@ -50,6 +52,7 @@ export const requestReducer = createReducer(
   on(ServiceRequestActions.createServiceRequest, (state) => ({
     ...state,
     loading: true,
+    requestCreated: false,
   })),
 
   on(
@@ -58,6 +61,7 @@ export const requestReducer = createReducer(
       ...state,
       serviceRequests: [...state.serviceRequests, payload],
       loading: false,
+      requestCreated: true,
     }),
   ),
 
@@ -65,6 +69,7 @@ export const requestReducer = createReducer(
     ...state,
     loading: false,
     error,
+    requestCreated: false,
   })),
 
   on(ServiceRequestActions.updateServiceRequest, (state) => ({
@@ -113,4 +118,5 @@ export const {
   selectSelectedServiceRequest,
   selectError,
   selectLoading,
+  selectRequestCreated,
 } = requestFeature;

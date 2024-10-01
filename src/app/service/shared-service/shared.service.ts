@@ -57,7 +57,8 @@ export class SharedService {
   }
 
   get isAdmin(): boolean {
-    return true;
+    // return true;
+    return this.role ? this.role === 'ROLE_ADMIN' : false;
   }
 
   get getRequestTypes() {

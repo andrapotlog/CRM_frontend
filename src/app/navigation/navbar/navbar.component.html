@@ -6,7 +6,7 @@
     <div class="navButton" *ngIf="(isAuth$ | async)" (click)="goToPayments()">Payments</div>
     <div class="navButton" *ngIf="(isAuth$ | async)" (click)="goToServiceRequest()">Requests</div>
     <div class="navButton" *ngIf="(isAuth$ | async)" (click)="goToAnnouncements()">Announcements</div>
-    <div class="navButton" *ngIf="(isAuth$ | async)" (click)="goToDashboard()">Dashboard</div>
+    <div class="navButton" *ngIf="(isAuth$ | async) && sharedService.isAdmin" (click)="goToDashboard()">Dashboard</div>
     <div class="navButton" *ngIf="(isAuth$ | async)" (click)="logOut()">Log out</div>
   </div>
 </mat-toolbar>

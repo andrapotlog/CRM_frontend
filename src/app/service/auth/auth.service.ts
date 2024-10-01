@@ -57,6 +57,7 @@ export class AuthService {
     this.store.dispatch(new Auth.SetUnauth());
     localStorage.removeItem('isAuth');
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
     this.router.navigateByUrl('/login');
   }
 }

@@ -1,4 +1,4 @@
-<p>login works!</p>
+<!--<p>login works!</p>-->
 <div class="login">
   <h2>Login</h2>
 
@@ -11,7 +11,7 @@
       <div class="login-body-field-container">
         <mat-form-field class="login-body-field" appearance="outline">
           <mat-label>Email</mat-label>
-          <input matInput formControlName="email" required type="email" />
+          <input matInput formControlName="email" required type="email"/>
           <mat-error *ngIf="loginForm.controls['email'].hasError('email')">
             Invalid email address
           </mat-error>

@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromReducer from '../../app.reducer';
 import { AuthService } from '../../service/auth/auth.service';
+import { SharedService } from '../../service/shared-service/shared.service';
 
 @Component({
   selector: 'app-navbar',
@@ -19,6 +20,7 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     private store: Store<fromReducer.State>,
     private auhService: AuthService,
+    public sharedService: SharedService,
   ) {}
 
   ngOnInit(): void {

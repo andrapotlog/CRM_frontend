@@ -25,6 +25,7 @@ import { loadCards } from '../../service/payments/cards-service/card.actions';
 import * as fromTemplateReducer from '../../service/payments/template-service/template.reducer';
 import * as fromCardReducer from '../../service/payments/cards-service/card.reducer';
 import * as fromPaymentReducer from '../../service/payments/payment-service/payment.reducer';
+import { SharedService } from '../../service/shared-service/shared.service';
 
 @Component({
   selector: 'app-payments',
@@ -68,6 +69,7 @@ export class PaymentsComponent implements OnInit {
     private templateService: TemplateService,
     private fb: FormBuilder,
     public dialog: MatDialog,
+    public sharedService: SharedService,
   ) {
     this.store.dispatch(loadTemplates());
     this.store.dispatch(loadPayments());

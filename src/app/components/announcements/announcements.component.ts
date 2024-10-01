@@ -70,5 +70,6 @@ export class AnnouncementsComponent implements OnInit {
         }),
       );
     }
+    this.store.dispatch(loadAnnouncements({ payload: this.userLocation }));
   }
 }

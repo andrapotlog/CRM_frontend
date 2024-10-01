@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { AnalyticsData } from '../../service/analytics-service/analytics.model';
 import { map, Observable, of, Subject, takeUntil } from 'rxjs';
 import { AnalyticsService } from '../../service/analytics-service/analytics.service';
@@ -20,7 +25,7 @@ Chart.register(...registerables);
   styleUrls: ['./dashboard.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   takeUntil$: Subject<void> = new Subject<void>();
 
   analyticsData$: Observable<AnalyticsData>;
@@ -28,22 +33,23 @@ export class DashboardComponent implements OnInit {
   barChartData$: Observable<ChartDataset<'bar', number[]>[]>;
   categoryMetricsData$: Observable<
     { category: string; responseTime: string; rate: string }[]
-  >;
+  > = of();
   barChartType: ChartType = 'bar';
 
-  categoryChartLabels$: Observable<string[]>;
-  categoryResponseTimeData$: Observable<ChartDataset<'pie', number[]>[]>;
-  categoryResolutionRateData$: Observable<ChartDataset<'pie', number[]>[]>;
+  categoryChartLabels$: Observable<string[]> = of();
+  categoryResponseTimeData$: Observable<ChartDataset<'pie', number[]>[]> = of();
+  categoryResolutionRateData$: Observable<ChartDataset<'pie', number[]>[]> =
+    of();
 
-  categoryCountData$: Observable<ChartDataset<'pie', number[]>[]>;
-  priorityCountData$: Observable<ChartDataset<'pie', number[]>[]>;
-  priorityCountLabels$: Observable<string[]>;
+  categoryCountData$: Observable<ChartDataset<'pie', number[]>[]> = of();
+  priorityCountData$: Observable<ChartDataset<'pie', number[]>[]> = of();
+  priorityCountLabels$: Observable<string[]> = of();
 
-  statusCountData$: Observable<ChartDataset<'pie', number[]>[]>;
-  statusCountLabels$: Observable<string[]>;
+  statusCountData$: Observable<ChartDataset<'pie', number[]>[]> = of();
+  statusCountLabels$: Observable<string[]> = of();
   categoryChartType: ChartType = 'bar';
 
-  combinedCategoryData$: Observable<ChartDataset[]>;
+  combinedCategoryData$: Observable<ChartDataset[]> = of();
 
   public barChartOptions: ChartOptions = {
     responsive: true,
@@ -167,6 +173,10 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  ngOnDestroy() {
+    this.takeUntil$.complete();
+  }
 
   toggleChart() {
     this.barChartType = this.barChartType === 'bar' ? 'line' : 'bar';

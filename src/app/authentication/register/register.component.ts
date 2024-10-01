@@ -168,10 +168,12 @@ export class RegisterComponent implements OnInit {
           this.personalDataForm.controls['phoneNumber'].value,
         address: this.personalDataForm.controls['address'].value,
         city: this.personalDataForm.controls['city'].value,
-        sendEmail:
-          this.personalDataForm.controls['agreeToReceiveUpdates'].value,
-        termsAndConditions:
-          this.personalDataForm.controls['agreeToProcessData'].value,
+        sendEmail: this.personalDataForm.controls['agreeToReceiveUpdates']
+          ? this.personalDataForm.controls['agreeToReceiveUpdates'].value
+          : false,
+        termsAndConditions: this.personalDataForm.controls['agreeToProcessData']
+          ? this.personalDataForm.controls['agreeToProcessData'].value
+          : false,
         postalCode: this.personalDataForm.controls['postalCode'].value,
       },
     };
